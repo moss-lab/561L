@@ -1,16 +1,25 @@
-#this is a script to convert regRNA prediction files into bed tracks for JBrowse
-# This assumes that the regRNA prediction file to be in the following format:
-# Protein: BRUNOL4(Hs/Mm)
-#Motif Type      Motif Name      Position        Length  Sequence
-#open reading frame (ORF)        ORF_0   132 ~ 398       267     atgca
+#!/usr/bin/python
+#
+# This is a script to convert RegRNA prediction output files into BED and GFF3 tracks for JBrowse.
+# RegRNA2.0 - http://regrna2.mbc.nctu.edu.tw/ can be used to predict regulatory elements
+# of a given RNA sequence.
+# This program was written based on an regRNA prediction file in the following format:
+#
+#   Motif Type      Motif Name      Position        Length  Sequence
+#   open reading frame (ORF)        ORF_0   132 ~ 398       267     atgca
+#
+# For each entry in the input file then, there should be five columns
+#
+# Usage:
+#
+# $ python3.6  561L_REGRNA_to_BED_GFF3.py inputfile outputfile
 #
 
+import sys      # this allows for sys.argv to be called
+import re       # this is used to implement a split command
 
-import sys
-import re
-
-filename = input('What is the name of your input file?: ')
-output = input('What do you want the base name of your output file to be? (no spaces, file extenstions will be added automatically):  ')
+filename = sys.argv[1]
+output = sys.argv[2]
 gene_coordinate = input('What is the starting coordinate of your gene (should be in format chr#:number): ')
 strand = input('What strand is your gene on (type + or -): ')
 bedfile = open(output+'.bed', 'w')
