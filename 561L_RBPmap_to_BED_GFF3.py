@@ -1,9 +1,23 @@
-#this is a script to convert RBPmap prediction files into bed tracks for JBrowse
-# This assumes that the RBPMap prediction file contains the genomic coordinate descriptions
-# for each RNA binding site, in the following format:
-# Protein: BRUNOL4(Hs/Mm)
-# Sequence Position	Genomic Coordinate	Motif     	K-mer     	Z-score	P-value
-# 2745             	chr1:2558383      	kgugukk   	agugugu   	1.784
+#!/usr/bin/python
+#
+# This program converts RBPmap prediction files into BED and GFF3 tracks for JBrowse
+# This assumes that the RBPMap prediction file contains accurate genomic coordinates
+# for each RNA binding site. The input file should be in the following format:
+#
+#   Protein: BRUNOL4(Hs/Mm)
+#   Sequence Position	Genomic Coordinate	Motif     	K-mer     	Z-score	P-value
+#   2745             	chr1:2558383      	kgugukk   	agugugu   	1.784
+#
+# For each entry in the input file then, there should be a title containing the
+# name of the binding protein followed by a six-column entry containing the
+# internal coordinates of the binding site, the genomic coordinates, the "consensus"
+# motif sequence for the protein, the matching sequence on the given RNA sequences,
+# followed by the z-score and p-value of match.
+#
+# Usage:
+#
+# $ python3.6  561L_REGRNA_to_BED_GFF3.py inputfile outputfile
+
 
 import sys
 import re
@@ -15,22 +29,12 @@ bedfile = open(output+'.bed', 'w')
 gff3file = open(output+'.gff3', 'w')
 with open(filename, newline='') as f:
 
-#this is a function to check for numbers
-    #def hasNumbers (inputString):
-    #    return bool(re.search(r'\d', inputString))
-
-# f.read()  <-- This would read the entire file and print it as a string
-    #header = f.readlines()[0:9] # this will focus on just the header portion of the input file
-    #for row in header:
-    #    print(header)
-    lines = f.readlines()[9:] #this will skip the header
+    lines = f.readlines()[9:] #this will skip the input file header
     for row in lines:
-        if 'Protein' in row:
-                #print("true")
+        if 'Protein' in row: #this singles out lines with "Protein" in them
                 protein_header = row.split()
-                #print (protein_header)
-                protein_data = re.split('\(', protein_header[1])
-                protein = protein_data[0]
+                protein_data = re.split('\(', protein_header[1]) # this splits the protein line based on this character "("
+                protein = protein_data[0] # this defines the protein name as the first portion of the protein
                 print(protein)
         if 'chr' in row:
                 #print(row)
@@ -39,7 +43,7 @@ with open(filename, newline='') as f:
                 match = data[3]
                 zscore = data[4]
                 pvalue = data [5]
-                chromosome_data = re.split('\:', data[1])
+                chromosome_data = re.split('\:', data[1]) # the second column actually has two elements we need to split at the colon chr1:2558383  
                 chromosome = chromosome_data[0]
                 icoordinate = int(chromosome_data[1])
                 jcoordinate = str(icoordinate+((len(str(motif)))-1))
