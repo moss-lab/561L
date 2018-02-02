@@ -52,10 +52,10 @@ with open(filename, newline='') as f:
         chromosome_data = re.split('\:', gene_coordinate)
         chromosome = chromosome_data[0]
         print(chromosome) #for testing
-        gene_start = int(chromosome_data[1])
+        gene_start = int(chromosome_data[1])-1
         print(gene_start) #for testing
         icoordinate = str(motif_i + gene_start)
-        jcoordinate = str(motif_j + (gene_start+(motif_length)))
+        jcoordinate = str(motif_j + (gene_start))
         print(chromosome, icoordinate, jcoordinate, motif_name, "0", strand)
         bedfile.write(chromosome+'\t'+icoordinate+'\t'+jcoordinate+'\t'+motif_name+'\t'+"0"+'\t'+strand+'\n')
         gff3file.write(chromosome+'\t'+'.'+'\t'+'sequence_attribute'+'\t'+icoordinate+'\t'+jcoordinate+'\t'+'.'+'\t'+strand+'\t'+'.'+'\t'+'Motif_type='+motif_type+';'+'Name='+motif_name+';'+'Length='+str(motif_length)+';'+'Sequence='+sequence+'\n')

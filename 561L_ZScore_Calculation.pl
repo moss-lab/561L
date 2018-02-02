@@ -19,8 +19,6 @@
 #use threads;
 #use strict;
 #use threads::shared;
-echo `module load viennarna`;
-echo `module load perl`
 
 use warnings;
 
