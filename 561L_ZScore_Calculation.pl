@@ -5,13 +5,13 @@
 
 # Usage:
 #
-# $ perl ZSCORE_PValue_Windows.pl inputfile stepsize windowsize randomizations > outname
+# $ perl ZSCORE_PValue_Windows.pl inputfile stepsize windowsize randomizations
 #
 # Here the inputfile is your sequence in fasta format, where the sequence is on a single line (no text wrapping)
 # the stepsize and windowsize determine the extent of the length of the sequence fragment analyzed and how many windows to calculate
 # a good step and window to start would be 40 and 120
 #
-# randomizations determines how many random sequences are used in the z-score calc. a good start would be 10
+# randomizations determines how many random sequences are used in the z-score calc. a good start would be 30
 #
 # outname is the name of the outputfile you want to create. Each column will have the fist and last nt of the window, the z-score, and the minimum free energy (MFE) of the native
 # a file called RNAfold.out will contain the predicted MFE structures of each window
@@ -19,8 +19,13 @@
 #use threads;
 #use strict;
 #use threads::shared;
+#use warnings;
+use v5.10;                     # minimal Perl version for \R support
+use utf8;                      # source is in UTF-8
+use warnings qw(FATAL utf8);   # encoding errors raise exceptions
+use open qw(:utf8 :std);       # default open mode, `backticks`, and std{in,out,err} are in UTF-8
 
-use warnings;
+
 
 my $fastafile = $ARGV[0];
 my $StepSize = $ARGV[1];
@@ -32,6 +37,8 @@ open(FASTAFILE, "$fastafile") || die "Can't open fasta file\n";
 my @fasta = <FASTAFILE>;
 close FASTAFILE;
 
+print "Running...";
+
 my $Name = $fasta[0];
 chomp $Name;
 #print $Name;
@@ -41,35 +48,32 @@ for (my $i=1; $i < @fasta; $i += 1) {
 
   my $Sequence = $fasta[$i];
   chomp $Sequence;
-    use v5.10;                     # minimal Perl version for \R support
-    use utf8;                      # source is in UTF-8
-    use warnings qw(FATAL utf8);   # encoding errors raise exceptions
-    use open qw(:utf8 :std);       # default open mode, `backticks`, and std{in,out,err} are in UTF-8
+
       $Sequence =~ s/\R//g;
       $SEQ .= $Sequence;
     }
+
+#Make  RNA
+$SEQ =~ s/T/U/g;
+
 #Divide the sequence into windows scramble them and calc Z-Zcore
 my $Length = length $SEQ;
 
-print "i\tj\tNative_dG\tZ-score\tP-value\tEnsembleDiversity\tfMFE\tSequence\tStructure\tCentroid\t#A's\t#G's\t#C's\t#U's\t$Name\n";
+open (OUT, "> $fastafile.win_$WindowSize.stp_$StepSize.rnd_$Randomizations.out") || die "can't open $fastafile.win_$WindowSize.stp_$StepSize.rnd_$Randomizations.out\n";
+print OUT "i\tj\tNative_dG\tZ-score\tP-value\tEnsembleDiversity\tfMFE\tSequence\tStructure\tCentroid\t#A's\t#G's\t#C's\t#U's\n";
+
 
 for (my $i = 0; $i < ($Length - $WindowSize); $i += $StepSize) {
     my $Frag = substr($SEQ, $i, $WindowSize);
 
-        #Fold Native Sequence and output results
-        #open (TEMP, ">> temp.seq") || die "can't open tempfile\n";
-        #my $input = "$Frag";
-        #print TEMP "$input";
-        #close TEMP;
-
-
 		my $StartNt = $i + 1;
 
-        my @Out = `echo $Frag | RNAfold --noPS -p`;
-        open (OUT, ">> $fastafile.out") || die "can't open $fastafile.out\n";
-        print OUT ">$StartNt \n";
-        print OUT @Out;
-        close OUT;
+        my @Out = `echo $Frag| RNAfold -p --noPS`;
+        #open (OUT, ">> $fastafile.out") || die "can't open $fastafile.out\n";
+        #print OUT ">$StartNt \n";
+        #print OUT @Out;
+        #close OUT;
+
 
         my $Fold_seq = $Out[0];
         chomp $Fold_seq;
@@ -106,14 +110,13 @@ for (my $i = 0; $i < ($Length - $WindowSize); $i += $StepSize) {
 
 	$WinStart = $i + 1;
 	$WinEnd = $i + $WindowSize;
-
-   	print "$WinStart\t$WinEnd\t$NativeDG\t$Zscore\t$PValue\t$EnsembleDiversity\t$FreqMFE_SF\t$Frag\t$Fold\t$CentroidFold\t$NTFreqs\n";
+      print OUT "$WinStart\t$WinEnd\t$NativeDG\t$Zscore\t$PValue\t$EnsembleDiversity\t$FreqMFE_SF\t$Frag\t$Fold\t$CentroidFold\t$NTFreqs\n";
 
 
 }
 
-print "\n\n";
-
+`rm dot.ps`;
+print "Completed! Find your output in the file named: $fastafile.win_$WindowSize.stp_$StepSize.rnd_$Randomizations.out";
 
 
 
