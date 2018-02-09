@@ -59,8 +59,8 @@ $SEQ =~ s/T/U/g;
 #Divide the sequence into windows scramble them and calc Z-Zcore
 my $Length = length $SEQ;
 
-open (OUT, "> $fastafile.win_$WindowSize.stp_$StepSize.rnd_$Randomizations.out") || die "can't open $fastafile.win_$WindowSize.stp_$StepSize.rnd_$Randomizations.out\n";
-print OUT "i\tj\tNative_dG\tZ-score\tP-value\tEnsembleDiversity\tfMFE\tSequence\tStructure\tCentroid\t#A's\t#G's\t#C's\t#U's\n";
+open (OUT, "> $fastafile.win_$WindowSize.stp_$StepSize.rnd_$Randomizations.txt") || die "can't open $fastafile.win_$WindowSize.stp_$StepSize.rnd_$Randomizations.out\n";
+print OUT "i\tj\tNative_dG\tRandom_dG\tZ-score\tP-value\tEnsembleDiversity\tfMFE\tSequence\tStructure\tCentroid\t#A's\t#G's\t#C's\t#U's\n";
 
 
 for (my $i = 0; $i < ($Length - $WindowSize); $i += $StepSize) {
@@ -100,9 +100,18 @@ for (my $i = 0; $i < ($Length - $WindowSize); $i += $StepSize) {
         push (@seqarray, $Frag);
         my @ScrambledSeqs = Scramble ($Frag);
         push (@seqarray, @ScrambledSeqs);
-
     my $NTFreqs = &NucFreqs($Frag);
 	my @EnergyArray = &Energy(@seqarray);
+  #print "@EnergyArray";
+  my @RandMFEs = @EnergyArray[1..$Randomizations];
+  #print "@RandMFEs\n";
+  my $RandSum = 0;
+  foreach( @RandMFEs ) {
+    $RandSum += $_;
+  }
+  #print $RandSum;
+  my $RandMean = $RandSum/$Randomizations;
+  #print $RandMean;
 	my $Zscore = &ZScore(@EnergyArray);
     my $NativeDG = $EnergyArray[0];
 	chomp $NativeDG;
@@ -110,13 +119,13 @@ for (my $i = 0; $i < ($Length - $WindowSize); $i += $StepSize) {
 
 	$WinStart = $i + 1;
 	$WinEnd = $i + $WindowSize;
-      print OUT "$WinStart\t$WinEnd\t$NativeDG\t$Zscore\t$PValue\t$EnsembleDiversity\t$FreqMFE_SF\t$Frag\t$Fold\t$CentroidFold\t$NTFreqs\n";
+      print OUT "$WinStart\t$WinEnd\t$NativeDG\t$RandMean\t$Zscore\t$PValue\t$EnsembleDiversity\t$FreqMFE_SF\t$Frag\t$Fold\t$CentroidFold\t$NTFreqs\n";
 
 
 }
 
 `rm dot.ps`;
-print "Completed! Find your output in the file named: $fastafile.win_$WindowSize.stp_$StepSize.rnd_$Randomizations.out";
+print "Completed! Find your output in the file named: $fastafile.win_$WindowSize.stp_$StepSize.rnd_$Randomizations.txt";
 
 
 
