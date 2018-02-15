@@ -56,6 +56,11 @@ with open(filename, newline='') as f:
         print(gene_start) #for testing
         icoordinate = str(motif_i + gene_start)
         jcoordinate = str(motif_j + (gene_start))
-        print(chromosome, icoordinate, jcoordinate, motif_name, "0", strand)
-        bedfile.write(chromosome+'\t'+icoordinate+'\t'+jcoordinate+'\t'+motif_name+'\t'+"0"+'\t'+strand+'\n')
-        gff3file.write(chromosome+'\t'+'.'+'\t'+'sequence_attribute'+'\t'+icoordinate+'\t'+jcoordinate+'\t'+'.'+'\t'+strand+'\t'+'.'+'\t'+'Motif_type='+motif_type+';'+'Name='+motif_name+';'+'Length='+str(motif_length)+';'+'Sequence='+sequence+'\n')
+        if "+" in strand:
+            print("POSITIVE"+chromosome, icoordinate, jcoordinate, motif_name, "0", strand)
+            bedfile.write(chromosome+'\t'+str(icoordinate-1)+'\t'+jcoordinate+'\t'+motif_name+'\t'+"0"+'\t'+strand+'\n')
+            gff3file.write(chromosome+'\t'+'.'+'\t'+'sequence_attribute'+'\t'+str(icoordinate)+'\t'+jcoordinate+'\t'+'.'+'\t'+strand+'\t'+'.'+'\t'+'Name='+motif_name+';'+'Binding_Motif='+motif+';'+'Binding_Match='+match+';'+'Zscore='+zscore+';'+'Pvalue='+pvalue+'\n')
+        if "-" in strand:
+            print("NEGATIVE"+chromosome, icoordinate, jcoordinate, motif_name, "0", strand)
+            bedfile.write(chromosome+'\t'+str(icoordinate-(len(str(motif))))+'\t'+str(icoordinate)+'\t'+motif_name+'\t'+"0"+'\t'+strand+'\n')
+            gff3file.write(chromosome+'\t'+'.'+'\t'+'sequence_attribute'+'\t'+str(icoordinate-(len(str(motif))-1))+'\t'+str(icoordinate)+'\t'+'.'+'\t'+strand+'\t'+'.'+'\t'+'Name='+motif_name+';'+'Binding_Motif='+motif+';'+'Binding_Match='+match+';'+'Zscore='+zscore+';'+'Pvalue='+pvalue+'\n')
