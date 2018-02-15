@@ -36,14 +36,17 @@ with open(filename, newline='') as f:
                 protein_data = re.split('\(', protein_header[1]) # this splits the protein line based on this character "("
                 protein = protein_data[0] # this defines the protein name as the first portion of the protein
                 print(protein)
+
+
         if 'chr' in row:
+
                 #print(row)
                 data = row.split()
                 motif = data[2]
                 match = data[3]
                 zscore = data[4]
                 pvalue = data [5]
-                chromosome_data = re.split('\:', data[1]) # the second column actually has two elements we need to split at the colon chr1:2558383  
+                chromosome_data = re.split('\:', data[1]) # the second column actually has two elements we need to split at the colon chr1:2558383
                 chromosome = chromosome_data[0]
                 icoordinate = int(chromosome_data[1])
                 jcoordinate = str(icoordinate+((len(str(motif)))-1))
@@ -52,6 +55,11 @@ with open(filename, newline='') as f:
                 #print(len(motif))
                 #print(motif)
                 #print(match)
-                print(chromosome, icoordinate, jcoordinate, protein, "0", strand)
-                bedfile.write(chromosome+'\t'+str(icoordinate-1)+'\t'+jcoordinate+'\t'+protein+'\t'+"0"+'\t'+strand+'\n')
-                gff3file.write(chromosome+'\t'+'.'+'\t'+'sequence_attribute'+'\t'+str(icoordinate)+'\t'+jcoordinate+'\t'+'.'+'\t'+strand+'\t'+'.'+'\t'+'Name='+protein+';'+'Binding_Motif='+motif+';'+'Binding_Match='+match+';'+'Zscore='+zscore+';'+'Pvalue='+pvalue+'\n')
+                if "+" in strand:
+                    print("POSITIVE"+chromosome, icoordinate, jcoordinate, protein, "0", strand)
+                    bedfile.write(chromosome+'\t'+str(icoordinate-1)+'\t'+jcoordinate+'\t'+protein+'\t'+"0"+'\t'+strand+'\n')
+                    gff3file.write(chromosome+'\t'+'.'+'\t'+'sequence_attribute'+'\t'+str(icoordinate)+'\t'+jcoordinate+'\t'+'.'+'\t'+strand+'\t'+'.'+'\t'+'Name='+protein+';'+'Binding_Motif='+motif+';'+'Binding_Match='+match+';'+'Zscore='+zscore+';'+'Pvalue='+pvalue+'\n')
+                if "-" in strand:
+                    print("NEGATIVE"+chromosome, icoordinate, jcoordinate, protein, "0", strand)
+                    bedfile.write(chromosome+'\t'+str(icoordinate-(len(str(motif))))+'\t'+str(icoordinate)+'\t'+protein+'\t'+"0"+'\t'+strand+'\n')
+                    gff3file.write(chromosome+'\t'+'.'+'\t'+'sequence_attribute'+'\t'+str(icoordinate-(len(str(motif))-1))+'\t'+str(icoordinate)+'\t'+'.'+'\t'+strand+'\t'+'.'+'\t'+'Name='+protein+';'+'Binding_Motif='+motif+';'+'Binding_Match='+match+';'+'Zscore='+zscore+';'+'Pvalue='+pvalue+'\n')
