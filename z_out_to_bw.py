@@ -12,6 +12,7 @@ import sys # this will allow for the use of system argument inputs
 import re
 import numpy as np
 import pyBigWig
+import RNA
 
 filename = sys.argv[1] # this should be the output of a z-score analysis in tab-delimited format
 #output = sys.argv[2]
@@ -42,9 +43,31 @@ fMFE_list = []
 with open(filename, 'r') as f:
     lines = f.readlines()[1:]
     for row in lines:
-        data = row.split('\t') # this splits each row based on "tab"
-        if len(data) > 5:
-            print(row)
+        data = row.split('\t') # this splits each row based on "tab
+        print(len(data))
+        if (len(data) == 14) and ('\-' in data[5]):
+                print(data)
+                data.remove(data[5])
+
+                #corrected_row = ('\t'.join(data))
+                print(data)
+                #print(row)
+                i = data[0]
+                j = data[1]
+                genomic_end = int(genomic_start)+int(step_size)
+                MFE = float(data[2])
+                MFE_list.append(MFE)
+                zscore = float(data[3])
+                zscore_list.append(zscore)
+                pscore = float(data[4])
+                pscore_list.append(pscore)
+                ED = float(data[5])
+                ED_list.append(ED)
+                fMFE = float(data[6])
+                fMFE_list.append(fMFE)
+
+        if len(data) == 14:
+            #print(row)
             i = data[0]
             j = data[1]
             genomic_end = int(genomic_start)+int(step_size)
@@ -62,9 +85,9 @@ with open(filename, 'r') as f:
 
 
 
-print(MFE_list)
-print(chromosome)
-print(step_size)
+#print(MFE_list)
+#print(chromosome)
+#print(step_size)
 MFE_wig.addEntries(chromosome, genomic_start,  values=MFE_list, span=step_size, step=step_size)
 zscore_wig.addEntries(chromosome, genomic_start,  values=zscore_list, span=step_size, step=step_size)
 pscore_wig.addEntries(chromosome, genomic_start,  values=pscore_list, span=step_size, step=step_size)
