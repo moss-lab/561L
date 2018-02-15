@@ -20,7 +20,7 @@ import re       # this is used to implement a split command
 
 filename = sys.argv[1]
 output = sys.argv[2]
-gene_coordinate = input('What is the starting coordinate of your gene (should be in format chr#:number): ')
+gene_coordinate = input('What are the coordinates of your gene (e.g., chr1:2555639..2565382): ')
 strand = input('What strand is your gene on (type + or -): ')
 bedfile = open(output+'.bed', 'w')
 gff3file = open(output+'.gff3', 'w')
@@ -47,20 +47,32 @@ with open(filename, newline='') as f:
         motif_j = int(motif_position[1])
         #print(motif_j+'\t') #this is for testing
         motif_length = int(data [3])
-        #print(motif_length+'\t') #this is for testing
+        #print(motif_length+'\t') #this is for testing   chr2:27370315..27370486
         sequence = data [4]
-        chromosome_data = re.split('\:', gene_coordinate)
-        chromosome = chromosome_data[0]
-        print(chromosome) #for testing
-        gene_start = int(chromosome_data[1])-1
-        print(gene_start) #for testing
-        icoordinate = str(motif_i + gene_start)
-        jcoordinate = str(motif_j + (gene_start))
+
         if "+" in strand:
-            print("POSITIVE"+chromosome, icoordinate, jcoordinate, motif_name, "0", strand)
-            bedfile.write(chromosome+'\t'+str(icoordinate-1)+'\t'+jcoordinate+'\t'+motif_name+'\t'+"0"+'\t'+strand+'\n')
-            gff3file.write(chromosome+'\t'+'.'+'\t'+'sequence_attribute'+'\t'+str(icoordinate)+'\t'+jcoordinate+'\t'+'.'+'\t'+strand+'\t'+'.'+'\t'+'Name='+motif_name+';'+'Binding_Motif='+motif+';'+'Binding_Match='+match+';'+'Zscore='+zscore+';'+'Pvalue='+pvalue+'\n')
+            chromosome_data = re.split('\:', gene_coordinate)
+            chromosome = chromosome_data[0]
+            print(chromosome) #for testing
+            fasta_coordinates = re.split('\.\.', chromosome_data[1])
+            gene_start = int(fasta_coordinates[0])-1
+            print(gene_start) #for testing
+            icoordinate = str(motif_i + gene_start)
+            jcoordinate = str(motif_j + (gene_start))
+            print(chromosome, icoordinate, jcoordinate, motif_name, "0", strand)
+            bedfile.write(chromosome+'\t'+str(int(icoordinate)-1)+'\t'+jcoordinate+'\t'+motif_name+'\t'+"0"+'\t'+strand+'\n')
+            gff3file.write(chromosome+'\t'+'.'+'\t'+'sequence_attribute'+'\t'+icoordinate+'\t'+jcoordinate+'\t'+'.'+'\t'+strand+'\t'+'.'+'\t'+'Motif_type='+motif_type+';'+'Name='+motif_name+';'+'Length='+str(motif_length)+';'+'Sequence='+sequence+'\n')
         if "-" in strand:
-            print("NEGATIVE"+chromosome, icoordinate, jcoordinate, motif_name, "0", strand)
-            bedfile.write(chromosome+'\t'+str(icoordinate-(len(str(motif))))+'\t'+str(icoordinate)+'\t'+motif_name+'\t'+"0"+'\t'+strand+'\n')
-            gff3file.write(chromosome+'\t'+'.'+'\t'+'sequence_attribute'+'\t'+str(icoordinate-(len(str(motif))-1))+'\t'+str(icoordinate)+'\t'+'.'+'\t'+strand+'\t'+'.'+'\t'+'Name='+motif_name+';'+'Binding_Motif='+motif+';'+'Binding_Match='+match+';'+'Zscore='+zscore+';'+'Pvalue='+pvalue+'\n')
+            chromosome_data = re.split('\:', gene_coordinate)
+            print(chromosome_data)
+            chromosome = chromosome_data[0]
+            print(chromosome) #for testing
+            fasta_coordinates =  re.split('\.\.', chromosome_data[1])
+            print(fasta_coordinates)
+            gene_start = int(fasta_coordinates[1])+1
+            print(gene_start) #for testing
+            jcoordinate = str(gene_start - motif_i)
+            icoordinate = str(gene_start - motif_j)
+            print(chromosome, icoordinate, jcoordinate, motif_name, "0", strand)
+            bedfile.write(chromosome+'\t'+str(int(icoordinate)-1)+'\t'+jcoordinate+'\t'+motif_name+'\t'+"0"+'\t'+strand+'\n')
+            gff3file.write(chromosome+'\t'+'.'+'\t'+'sequence_attribute'+'\t'+icoordinate+'\t'+jcoordinate+'\t'+'.'+'\t'+strand+'\t'+'.'+'\t'+'Motif_type='+motif_type+';'+'Name='+motif_name+';'+'Length='+str(motif_length)+';'+'Sequence='+sequence+'\n')
