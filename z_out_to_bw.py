@@ -9,10 +9,7 @@
 #
 
 import sys # this will allow for the use of system argument inputs
-import re
-import numpy as np
 import pyBigWig
-import RNA
 
 filename = sys.argv[1] # this should be the output of a z-score analysis in tab-delimited format
 #output = sys.argv[2]
@@ -22,9 +19,9 @@ pscore_wig = pyBigWig.open('pscore_'+filename+'.bw', 'w')
 ED_wig = pyBigWig.open('ED_'+filename+'.bw', 'w')
 fMFE_wig = pyBigWig.open('fMFE_'+filename+'.bw', 'w')
 
-chromosome = str(raw_input("What chromsome is your gene on? (e.g., chr1): "))
-genomic_start = int(raw_input("What is the starting coordinate of your gene sequence? (e.g., 2555639; without commas): " ))
-step_size = int(raw_input("What is the step size for your data? (e.g. 1): " ))
+chromosome = str(input("What chromsome is your gene on? (e.g., chr1): "))
+genomic_start = int(input("What is the starting coordinate of your gene sequence? (e.g., 2555639; without commas): " ))
+step_size = int(input("What is the step size for your data? (e.g. 1): " ))
 
 MFE_wig.addHeader([("chr1",	248956422),("chr2", 242193529),("chr3", 198295559),("chr4", 190214555),("chr5", 181538259),("chr6", 170805979),("chr7", 159345973),("chr8", 145138636),("chr9",138394717),("chr10",133797422),("chr10",133797422),("chr11",135086622)])
 zscore_wig.addHeader([("chr1",	248956422),("chr2", 242193529),("chr3", 198295559),("chr4", 190214555),("chr5", 181538259),("chr6", 170805979),("chr7", 159345973),("chr8", 145138636),("chr9",138394717),("chr10",133797422),("chr10",133797422),("chr11",135086622)])
