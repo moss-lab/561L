@@ -30,7 +30,6 @@ pscore_wig.addHeader([("chr1",248956422),("chr2",242193529),("chr3",198295559),(
 ED_wig.addHeader([("chr1",248956422),("chr2",242193529),("chr3",198295559),("chr4",190214555),("chr5",181538259),("chr6",170805979),("chr7",159345973),("chr8",145138636),("chr9",138394717),("chr10",133797422),("chr11",135086622),("chr12",133851895),("chr13",115169878),("chr14",107349540),("chr15",102531392),("chr16",90354753),("chr17",107349540),("chr18",78077248),("chr19",59128983),("chr20",63025520),("chr21",48129895),("chr22",51304566),("chrX",155270560),("chrY",59373566)])
 fMFE_wig.addHeader([("chr1",248956422),("chr2",242193529),("chr3",198295559),("chr4",190214555),("chr5",181538259),("chr6",170805979),("chr7",159345973),("chr8",145138636),("chr9",138394717),("chr10",133797422),("chr11",135086622),("chr12",133851895),("chr13",115169878),("chr14",107349540),("chr15",102531392),("chr16",90354753),("chr17",107349540),("chr18",78077248),("chr19",59128983),("chr20",63025520),("chr21",48129895),("chr22",51304566),("chrX",155270560),("chrY",59373566)])
 
-
 MFE_list = []
 zscore_list = []
 pscore_list = []
@@ -46,7 +45,6 @@ with open(filename, 'r') as f:
             if (len(data) == 14) and ('\-' in data[5]):
                     print(data)
                     data.remove(data[5])
-
                     #corrected_row = ('\t'.join(data))
                     print(data)
                     #print(row)
@@ -63,7 +61,6 @@ with open(filename, 'r') as f:
                     ED_list.append(ED)
                     fMFE = float(data[6])
                     fMFE_list.append(fMFE)
-
             if len(data) == 14:
                 #print(row)
                 i = data[0]
@@ -104,7 +101,6 @@ with open(filename, 'r') as f:
                         ED_list.append(ED)
                         fMFE = float(data[6])
                         fMFE_list.append(fMFE)
-
                 if len(data) == 14:
                     #print(row)
                     i = data[0]
