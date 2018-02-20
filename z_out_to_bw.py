@@ -21,7 +21,9 @@ fMFE_wig = pyBigWig.open('fMFE_'+filename+'.bw', 'w')
 
 chromosome = str(input("What chromsome is your gene on? (e.g., chr1): "))
 genomic_start = int(input("What is the starting coordinate of your gene sequence? (e.g., 2555639; without commas): " ))
-step_size = int(input("What is the step size for your data? (e.g. 1): " ))
+gene_coordinate = input('What are the coordinates of your gene (e.g., chr1:2555639..2565382): ')
+step_size = int(input("What is the step size for your data? (e.g., 1):  "))
+window_size = int(input("What is the window size for your data? (e.g., 120)"))
 strand = input("What strand is your gene on (+ or -)?: ")
 
 MFE_wig.addHeader([("chr1",248956422),("chr2",242193529),("chr3",198295559),("chr4",190214555),("chr5",181538259),("chr6",170805979),("chr7",159345973),("chr8",145138636),("chr9",138394717),("chr10",133797422),("chr11",135086622),("chr12",133851895),("chr13",115169878),("chr14",107349540),("chr15",102531392),("chr16",90354753),("chr17",107349540),("chr18",78077248),("chr19",59128983),("chr20",63025520),("chr21",48129895),("chr22",51304566),("chrX",155270560),("chrY",59373566)])
@@ -105,7 +107,7 @@ with open(filename, 'r') as f:
                     #print(row)
                     i = data[0]
                     j = data[1]
-                    genomic_end = int(genomic_start)+int(step_size)
+                    genomic_start = int(genomic_start)+int(window_size)
                     MFE = float(data[2])
                     MFE_list.append(MFE)
                     zscore = float(data[3])
