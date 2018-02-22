@@ -65,6 +65,8 @@ if strand == "+":
             jcoordinate = int(int(gdata[1])+int(genomic_start))
             gMFE = gdata[2]
             gzscore = gdata[3]
+            if gzscore == "Undef":
+                gzscore = 00000
             gpvalue = gdata[4]
             gED = gdata[5]
             gfMFE = gdata[6]
@@ -98,6 +100,8 @@ if strand == "-":
             jcoordinate = int(int(genomic_start)+(int(length)-int(gdata[0])))
             gMFE = gdata[2]
             gzscore = gdata[3]
+            if gzscore == "Undef":
+                gzscore = 00000
             gpvalue = gdata[4]
             gED = gdata[5]
             gfMFE = gdata[6]
@@ -133,7 +137,10 @@ with open(filename, 'r') as f:
             genomic_end = int(genomic_start)+int(step_size)
             MFE = float(data[2])
             MFE_list.append(MFE)
-            zscore = float(data[3])
+            if data[3] == "Undef":
+                zscore = float(00000)
+            else:
+                zscore = float(data[3])
             zscore_list.append(zscore)
             pscore = float(data[4])
             pscore_list.append(pscore)
@@ -161,7 +168,10 @@ with open(filename, 'r') as f:
                 #genomic_start = int(genomic_start)+int(window_size)
                 MFE = float(data[2])
                 MFE_list.append(MFE)
-                zscore = float(data[3])
+                if data[3] == "Undef":
+                    zscore = float(00000)
+                else:
+                    zscore = float(data[3])
                 zscore_list.append(zscore)
                 pscore = float(data[4])
                 pscore_list.append(pscore)
