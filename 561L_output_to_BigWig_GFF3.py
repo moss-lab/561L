@@ -5,7 +5,7 @@
 #
 # Usage:
 #
-# $ python thisScrip.py inputfile outfile
+# $ python3.6 thisScrip.py inputfile 
 #
 
 import sys # this will allow for the use of system argument inputs
@@ -64,19 +64,20 @@ if strand == "+":
             icoordinate = int(int(gdata[0])+int(genomic_start))
             jcoordinate = int(int(gdata[1])+int(genomic_start))
             gMFE = gdata[2]
-            gzscore = gdata[3]
+            g_rand_MFE = gdata[3]
+            gzscore = gdata[4]
             if gzscore == "Undef":
                 gzscore = 00000
-            gpvalue = gdata[4]
-            gED = gdata[5]
-            gfMFE = gdata[6]
-            gsequence = gdata[7]
-            gfold = gdata[8]
-            gcentroid = gdata[9]
-            fA = gdata[10]
-            fG = gdata[11]
-            fC = gdata[12]
-            fU = gdata[13]
+            gpvalue = gdata[5]
+            gED = gdata[6]
+            gfMFE = gdata[7]
+            gsequence = gdata[8]
+            gfold = gdata[9]
+            gcentroid = gdata[10]
+            fA = gdata[11]
+            fG = gdata[12]
+            fC = gdata[13]
+            fU = gdata[14]
             #icoordinate = int(chromosome_data[1])
             #jcoordinate = str(icoordinate+((len(str(motif)))-1))
             #print(icoordinate)
@@ -99,19 +100,20 @@ if strand == "-":
             icoordinate = int(int(genomic_start)+(int(length)-int(gdata[1])))
             jcoordinate = int(int(genomic_start)+(int(length)-int(gdata[0])))
             gMFE = gdata[2]
-            gzscore = gdata[3]
+            g_rand_MFE = gdata[3]
+            gzscore = gdata[4]
             if gzscore == "Undef":
                 gzscore = 00000
-            gpvalue = gdata[4]
-            gED = gdata[5]
-            gfMFE = gdata[6]
-            gsequence = gdata[7]
-            gfold = gdata[8]
-            gcentroid = gdata[9]
-            fA = gdata[10]
-            fG = gdata[11]
-            fC = gdata[12]
-            fU = gdata[13]
+            gpvalue = gdata[5]
+            gED = gdata[6]
+            gfMFE = gdata[7]
+            gsequence = gdata[8]
+            gfold = gdata[9]
+            gcentroid = gdata[10]
+            fA = gdata[11]
+            fG = gdata[12]
+            fC = gdata[13]
+            fU = gdata[14]
             #icoordinate = int(chromosome_data[1])
             #jcoordinate = str(icoordinate+((len(str(motif)))-1))
             #print(icoordinate)
@@ -137,16 +139,16 @@ with open(filename, 'r') as f:
             genomic_end = int(genomic_start)+int(step_size)
             MFE = float(data[2])
             MFE_list.append(MFE)
-            if data[3] == "Undef":
+            if data[4] == "Undef":
                 zscore = float(00000)
             else:
-                zscore = float(data[3])
+                zscore = float(data[4])
             zscore_list.append(zscore)
-            pscore = float(data[4])
+            pscore = float(data[5])
             pscore_list.append(pscore)
-            ED = float(data[5])
+            ED = float(data[6])
             ED_list.append(ED)
-            fMFE = float(data[6])
+            fMFE = float(data[7])
             fMFE_list.append(fMFE)
 
         MFE_wig.addEntries(chromosome, genomic_start,  values=MFE_list, span=step_size, step=step_size)
@@ -168,16 +170,16 @@ with open(filename, 'r') as f:
                 #genomic_start = int(genomic_start)+int(window_size)
                 MFE = float(data[2])
                 MFE_list.append(MFE)
-                if data[3] == "Undef":
+                if data[4] == "Undef":
                     zscore = float(00000)
                 else:
-                    zscore = float(data[3])
+                    zscore = float(data[4])
                 zscore_list.append(zscore)
-                pscore = float(data[4])
+                pscore = float(data[5])
                 pscore_list.append(pscore)
-                ED = float(data[5])
+                ED = float(data[6])
                 ED_list.append(ED)
-                fMFE = float(data[6])
+                fMFE = float(data[7])
                 fMFE_list.append(fMFE)
 
 #print(MFE_list)
