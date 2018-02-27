@@ -79,6 +79,12 @@ with open(filename, 'r') as g:
     lines = g.readlines()[1:]
     for row in lines:
         data = row.split('\t')
+        if ('\-' in data[5]):
+            print(data)
+            data.remove(data[5])
+            #corrected_row = ('\t'.join(data))
+            print(data)
+            #print(row)
         #icoordinate = int((int(data[0])+int(genomic_start)-1))
         #jcoordinate = int(int(data[1])+int(genomic_start))
         icoordinate = int(data[0])-1
@@ -94,7 +100,13 @@ with open(filename, 'r') as g:
             zscore = float(00000)
         else:
             zscore = float(data[4])
-        pvalue = float(data[5])
+        pvalue = int(data[5])
+        try:
+            pvalue = float(data[5])
+        except ValueError:
+            print(data[5])
+            pvalue =float(0)
+
         ED = float(data[6])
         fMFE = float(data[7])
         window_sequence = data[8]
