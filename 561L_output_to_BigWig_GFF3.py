@@ -58,11 +58,11 @@ if strand == "+":
         #print(row)
         for row in glines:
             gdata = row.split('\t') # this splits each row based on "tab"
-            if '\-' in data[5]:
-                print(data)
-                data.remove(data[5])
+            if '\-' in gdata[5]:
+                print(gdata)
+                gdata.remove(gdata[5])
                 #corrected_row = ('\t'.join(data))
-                print(data)
+                print(gdata)
                 #print(row)
             #print(data)
             #print(gdata)
@@ -100,11 +100,11 @@ if strand == "-":
         glines = g.readlines()[1:]
         for row in glines:
             gdata = row.split('\t') # this splits each row based on "tab"
-            if '\-' in data[5]:
+            if '\-' in gdata[5]:
                 print(data)
-                data.remove(data[5])
+                gdata.remove(gdata[5])
                 #corrected_row = ('\t'.join(data))
-                print(data)
+                print(gdata)
                 #print(row)
             #print(data)
             #print(gdata)
