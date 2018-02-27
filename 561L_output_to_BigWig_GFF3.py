@@ -5,7 +5,7 @@
 #
 # Usage:
 #
-# $ python3.6 thisScrip.py inputfile 
+# $ python3.6 thisScrip.py inputfile
 #
 
 import sys # this will allow for the use of system argument inputs
