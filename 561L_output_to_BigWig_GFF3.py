@@ -31,12 +31,12 @@ genomic_start = genomic_coordinates[0]
 genomic_end = genomic_coordinates[1]
 
 # Create and open output files for writing
-MFE_wig = pyBigWig.open(filename+'.strand'+strand+'_MFE_'+'.bw', 'w')
-zscore_wig = pyBigWig.open(filename+'.strand'+strand+'_zscore_'+'.bw', 'w')
-pscore_wig = pyBigWig.open(filename+'.strand'+strand+'_pscore_'+'.bw', 'w')
-ED_wig = pyBigWig.open(filename+'.strand'+strand+'_Ed_'+'.bw', 'w')
-fMFE_wig = pyBigWig.open(filename+'.strand'+strand+'_fMFE_'+'.bw', 'w')
-gff3file = open(filename+'.strand'+strand+'.gff3', 'w')
+MFE_wig = pyBigWig.open(filename+'.strand('+strand+')_MFE.bw', 'w')
+zscore_wig = pyBigWig.open(filename+'.strand('+strand+')_zscore.bw', 'w')
+pscore_wig = pyBigWig.open(filename+'.strand('+strand+')_pvalue.bw', 'w')
+ED_wig = pyBigWig.open(filename+'.strand('+strand+')_Ed.bw', 'w')
+fMFE_wig = pyBigWig.open(filename+'.strand('+strand+')_fMFE.bw', 'w')
+gff3file = open(filename+'.strand('+strand+').gff3', 'w')
 #corrected_file = open(filename+'.corrected.txt', 'w')
 
 # Write header for corrected file:
