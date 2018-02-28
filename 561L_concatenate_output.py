@@ -330,7 +330,7 @@ if strand == "-":
             print(window_start)
             window_end = int(int(genomic_start)+(int(length)-int(i)))-1
             print(window_end)
-            record = SeqRecord(frag, '%s dna:chromosome chromosome:GRCh38:%s:%s:%s:%s' % (chromosome, chromosome, window_start, window_end, strand), '', '')
+            record = SeqRecord(frag, '%s dna:chromosome chromosome:GRCh38:%s:%s:%s:%s1' % (chromosome, chromosome, window_start, window_end, strand), '', '')
             frags.append(record)
 
     SeqIO.write(frags, fastafile+".seq_cutoff_("+threshold+").fa", "fasta")
