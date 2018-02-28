@@ -73,8 +73,8 @@ if strand == "+":
                 #print(row)
                 #icoordinate = int((int(data[0])+int(genomic_start)-1))
                 #jcoordinate = int(int(data[1])+int(genomic_start))
-                icoordinate = int(gdata[0])-1
-                jcoordinate = int(gdata[1])
+                icoordinate = (int(gdata[0])-1)+int(genomic_start)
+                jcoordinate = (int(gdata[1]))+int(genomic_start)
                 window_size = jcoordinate - icoordinate
         #        if strand == '-1':
         #            icoordinate = int(int(genomic_start)+(int(length)-int(data[1])))
@@ -105,8 +105,8 @@ if strand == "+":
                 gff3file.write(chromosome+'\t'+'.'+'\t'+'sequence_attribute'+'\t'+str(icoordinate)+'\t'+str(jcoordinate)+'\t'+'.'+'\t'+strand+'\t'+'.\t'+'MFE='+str(gMFE)+';'+'Z-score='+str(gzscore)+';'+'P-value='+str(gpvalue)+';'+'EnsDiv='+str(gED)+';'+'fMFE='+str(gfMFE)+';'+'Sequence='+gsequence+';'+'MFE_Fold='+gfold+';'+'Centroid='+gcentroid+'\n')
 
             else:
-                icoordinate = int(gdata[0])-1
-                jcoordinate = int(gdata[1])
+                icoordinate = (int(gdata[0])-1)+int(genomic_start)
+                jcoordinate = (int(gdata[1]))+int(genomic_start)
                 window_size = jcoordinate - icoordinate
         #        if strand == '-1':
         #            icoordinate = int(int(genomic_start)+(int(length)-int(data[1])))
