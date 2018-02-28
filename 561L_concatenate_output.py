@@ -82,7 +82,7 @@ length = (int(genomic_end) - int(genomic_start)) + 1
 #print(strand)
 # Open the z-score output file, and split each row into its metrics
 if strand == "1":
-    print("positive_strand")
+    #print("positive_strand")
     with open(filename, 'r') as g:
         lines = g.readlines()[1:]
         for row in lines:
@@ -208,7 +208,7 @@ if strand == "1":
     print("Mean ED of concatenated windows = ", np.mean(ED_list))
 
 if strand == "-":
-    print("Negative_strand")
+    #print("Negative_strand")
     with open(filename, 'r') as g:
         lines = g.readlines()[1:]
         for row in lines:
