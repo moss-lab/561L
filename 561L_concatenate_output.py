@@ -3,7 +3,7 @@
 #
 # Usage:
 #
-# $ python thisScrip.py inputfile outfile
+# $ python thisScrip.py inputfile fastafile
 #
 
 import sys # This will allow for the use of system argument inputs
