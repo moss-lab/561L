@@ -60,6 +60,9 @@ for cur_record in SeqIO.parse(fastafile, "fasta"):
     #print(cur_record.name)
     #print(gene_sequence)
 
+corrected_file = open(filename+'.corrected.txt', 'w')
+corrected_file.write("i\tj\tMFE\trandomMFE\tZscore\tPscore\tED\tfMFE\tSequence\tFold\tCentroid\t#A\t#G\t#C\t#U")
+
 # Open fasta with python to grab the header
 with open(fastafile, 'r') as f:
     header = f.readlines()[:1]
@@ -79,52 +82,101 @@ with open(filename, 'r') as g:
     lines = g.readlines()[1:]
     for row in lines:
         data = row.split('\t')
-        if ('\-' in data[5]):
-            print(data)
+        if len(data) > 15:
+            print("Errors found in file")
+            print("Error in column six:", data)
             data.remove(data[5])
             #corrected_row = ('\t'.join(data))
-            print(data)
+            print("Error removed:", data)
             #print(row)
-        #icoordinate = int((int(data[0])+int(genomic_start)-1))
-        #jcoordinate = int(int(data[1])+int(genomic_start))
-        icoordinate = int(data[0])-1
-        jcoordinate = int(data[1])
-        window_size = jcoordinate - icoordinate
-#        if strand == '-1':
-#            icoordinate = int(int(genomic_start)+(int(length)-int(data[1])))
-#            jcoordinate = int(int(genomic_start)+(int(length)-int(data[0])))
-        MFE = float(data[2])
-        rand_MFE = float(data[3])
-        zscore = data[4]
-        if zscore == "Undef":
-            zscore = float(00000)
+            #icoordinate = int((int(data[0])+int(genomic_start)-1))
+            #jcoordinate = int(int(data[1])+int(genomic_start))
+            icoordinate = int(data[0])-1
+            jcoordinate = int(data[1])
+            window_size = jcoordinate - icoordinate
+    #        if strand == '-1':
+    #            icoordinate = int(int(genomic_start)+(int(length)-int(data[1])))
+    #            jcoordinate = int(int(genomic_start)+(int(length)-int(data[0])))
+            MFE = float(data[2])
+            rand_MFE = float(data[3])
+            zscore = data[4]
+            if zscore == "Undef":
+                zscore = float(00000)
+            else:
+                zscore = float(data[4])
+            pvalue = data[5]
+            try:
+                pvalue = float(data[5])
+            except ValueError:
+                print(str(data[5]))
+                pvalue =float(0)
+            ED = float(data[6])
+            fMFE = float(data[7])
+            window_sequence = data[8]
+            fold = data[9]
+            centroid = data[10]
+            fA = data[11]
+            fG = data[12]
+            fC = data[13]
+            fU = data[14]
+            corrected_file.write(data[0]+'\t'+data[1]+'\t'+data[2]+'\t'+data[3]+'\t'+data[4]+'\t'+data[5]+'\t'+data[6]+'\t'+data[7]+'\t'+data[8]+'\t'+data[9]+'\t'+data[10]+'\t'+data[11]+'\t'+data[12]+'\t'+data[13]+'\t'+data[14])
+    # With metrics defined, we can place each window with
+            if float(zscore) < float(threshold):
+                window = Interval(icoordinate, jcoordinate)
+                hotspot_regions.append(window)
+                MFE_list.append(MFE)
+                z_score_list.append(zscore)
+                p_score_list.append(pvalue)
+                ED_list.append(ED)
+
+
+
+
         else:
-            zscore = float(data[4])
-        pvalue = int(data[5])
-        try:
-            pvalue = float(data[5])
-        except ValueError:
-            print(data[5])
-            pvalue =float(0)
+            pvalue = data[5]
 
-        ED = float(data[6])
-        fMFE = float(data[7])
-        window_sequence = data[8]
-        fold = data[9]
-        centroid = data[10]
-        fA = data[11]
-        fG = data[12]
-        fC = data[13]
-        fU = data[14]
 
-# With metrics defined, we can place each window with
-        if float(zscore) < float(threshold):
-            window = Interval(icoordinate, jcoordinate)
-            hotspot_regions.append(window)
-            MFE_list.append(MFE)
-            z_score_list.append(zscore)
-            p_score_list.append(pvalue)
-            ED_list.append(ED)
+            #icoordinate = int((int(data[0])+int(genomic_start)-1))
+            #jcoordinate = int(int(data[1])+int(genomic_start))
+            icoordinate = int(data[0])-1
+            jcoordinate = int(data[1])
+            window_size = jcoordinate - icoordinate
+    #        if strand == '-1':
+    #            icoordinate = int(int(genomic_start)+(int(length)-int(data[1])))
+    #            jcoordinate = int(int(genomic_start)+(int(length)-int(data[0])))
+            MFE = float(data[2])
+            rand_MFE = float(data[3])
+            zscore = data[4]
+            if zscore == "Undef":
+                zscore = float(00000)
+            else:
+                zscore = float(data[4])
+            if data[5] == '':
+                print(HELP)
+            try:
+                pvalue = float(data[5])
+            except ValueError:
+                print(str(data[5]))
+                pvalue = float(0)
+
+            ED = float(data[6])
+            fMFE = float(data[7])
+            window_sequence = data[8]
+            fold = data[9]
+            centroid = data[10]
+            fA = data[11]
+            fG = data[12]
+            fC = data[13]
+            fU = data[14]
+            corrected_file.write(data[0]+'\t'+data[1]+'\t'+data[2]+'\t'+data[3]+'\t'+data[4]+'\t'+data[5]+'\t'+data[6]+'\t'+data[7]+'\t'+data[8]+'\t'+data[9]+'\t'+data[10]+'\t'+data[11]+'\t'+data[12]+'\t'+data[13]+'\t'+data[14])
+    # With metrics defined, we can place each window with
+            if float(zscore) < float(threshold):
+                window = Interval(icoordinate, jcoordinate)
+                hotspot_regions.append(window)
+                MFE_list.append(MFE)
+                z_score_list.append(zscore)
+                p_score_list.append(pvalue)
+                ED_list.append(ED)
 
 
 
