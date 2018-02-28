@@ -37,10 +37,10 @@ pscore_wig = pyBigWig.open(filename+'.strand'+strand+'_pscore_'+'.bw', 'w')
 ED_wig = pyBigWig.open(filename+'.strand'+strand+'_Ed_'+'.bw', 'w')
 fMFE_wig = pyBigWig.open(filename+'.strand'+strand+'_fMFE_'+'.bw', 'w')
 gff3file = open(filename+'.strand'+strand+'.gff3', 'w')
-corrected_file = open(filename+'.corrected.txt', 'w')
+#corrected_file = open(filename+'.corrected.txt', 'w')
 
 # Write header for corrected file:
-corrected_file.write("i\tj\tMFE\trandomMFE\tZscore\tPscore\tED\tfMFE\tSequence\tFold\tCentroid\t#A\t#G\t#C\t#U\n")
+#corrected_file.write("i\tj\tMFE\trandomMFE\tZscore\tPscore\tED\tfMFE\tSequence\tFold\tCentroid\t#A\t#G\t#C\t#U\n")
 
 
 MFE_wig.addHeader([("chr1",248956422),("chr2",242193529),("chr3",198295559),("chr4",190214555),("chr5",181538259),("chr6",170805979),("chr7",159345973),("chr8",145138636),("chr9",138394717),("chr10",133797422),("chr11",135086622),("chr12",133851895),("chr13",115169878),("chr14",107349540),("chr15",102531392),("chr16",90354753),("chr17",107349540),("chr18",78077248),("chr19",59128983),("chr20",63025520),("chr21",48129895),("chr22",51304566),("chrX",155270560),("chrY",59373566)])
@@ -101,7 +101,7 @@ if strand == "+":
                 gfG = gdata[12]
                 gfC = gdata[13]
                 gfU = gdata[14]
-                corrected_file.write(gdata[0]+'\t'+gdata[1]+'\t'+gdata[2]+'\t'+gdata[3]+'\t'+gdata[4]+'\t'+gdata[5]+'\t'+gdata[6]+'\t'+gdata[7]+'\t'+gdata[8]+'\t'+gdata[9]+'\t'+gdata[10]+'\t'+gdata[11]+'\t'+gdata[12]+'\t'+gdata[13]+'\t'+gdata[14])
+                #corrected_file.write(gdata[0]+'\t'+gdata[1]+'\t'+gdata[2]+'\t'+gdata[3]+'\t'+gdata[4]+'\t'+gdata[5]+'\t'+gdata[6]+'\t'+gdata[7]+'\t'+gdata[8]+'\t'+gdata[9]+'\t'+gdata[10]+'\t'+gdata[11]+'\t'+gdata[12]+'\t'+gdata[13]+'\t'+gdata[14])
                 gff3file.write(chromosome+'\t'+'.'+'\t'+'sequence_attribute'+'\t'+str(icoordinate)+'\t'+str(jcoordinate)+'\t'+'.'+'\t'+strand+'\t'+'.\t'+'MFE='+str(gMFE)+';'+'Z-score='+str(gzscore)+';'+'P-value='+str(gpvalue)+';'+'EnsDiv='+str(gED)+';'+'fMFE='+str(gfMFE)+';'+'Sequence='+gsequence+';'+'MFE_Fold='+gfold+';'+'Centroid='+gcentroid+'\n')
 
             else:
@@ -134,7 +134,7 @@ if strand == "+":
                 gfC = gdata[13]
                 gfU = gdata[14]
 
-                corrected_file.write(gdata[0]+'\t'+gdata[1]+'\t'+gdata[2]+'\t'+gdata[3]+'\t'+gdata[4]+'\t'+gdata[5]+'\t'+gdata[6]+'\t'+gdata[7]+'\t'+gdata[8]+'\t'+gdata[9]+'\t'+gdata[10]+'\t'+gdata[11]+'\t'+gdata[12]+'\t'+gdata[13]+'\t'+gdata[14])
+                #corrected_file.write(gdata[0]+'\t'+gdata[1]+'\t'+gdata[2]+'\t'+gdata[3]+'\t'+gdata[4]+'\t'+gdata[5]+'\t'+gdata[6]+'\t'+gdata[7]+'\t'+gdata[8]+'\t'+gdata[9]+'\t'+gdata[10]+'\t'+gdata[11]+'\t'+gdata[12]+'\t'+gdata[13]+'\t'+gdata[14])
                 gff3file.write(chromosome+'\t'+'.'+'\t'+'sequence_attribute'+'\t'+str(icoordinate)+'\t'+str(jcoordinate)+'\t'+'.'+'\t'+strand+'\t'+'.\t'+'MFE='+str(gMFE)+';'+'Z-score='+str(gzscore)+';'+'P-value='+str(gpvalue)+';'+'EnsDiv='+str(gED)+';'+'fMFE='+str(gfMFE)+';'+'Sequence='+gsequence+';'+'MFE_Fold='+gfold+';'+'Centroid='+gcentroid+'\n')
 
 if strand == "-":
@@ -172,7 +172,7 @@ if strand == "-":
                 fC = gdata[13]
                 fU = gdata[14]
 
-                corrected_file.write(gdata[0]+'\t'+gdata[1]+'\t'+gdata[2]+'\t'+gdata[3]+'\t'+gdata[4]+'\t'+gdata[5]+'\t'+gdata[6]+'\t'+gdata[7]+'\t'+gdata[8]+'\t'+gdata[9]+'\t'+gdata[10]+'\t'+gdata[11]+'\t'+gdata[12]+'\t'+gdata[13]+'\t'+gdata[14])
+                #corrected_file.write(gdata[0]+'\t'+gdata[1]+'\t'+gdata[2]+'\t'+gdata[3]+'\t'+gdata[4]+'\t'+gdata[5]+'\t'+gdata[6]+'\t'+gdata[7]+'\t'+gdata[8]+'\t'+gdata[9]+'\t'+gdata[10]+'\t'+gdata[11]+'\t'+gdata[12]+'\t'+gdata[13]+'\t'+gdata[14])
                 gff3file.write(chromosome+'\t'+'.'+'\t'+'sequence_attribute'+'\t'+str(icoordinate)+'\t'+str(jcoordinate)+'\t'+'.'+'\t'+strand+'\t'+'.\t'+'MFE='+str(gMFE)+';'+'Z-score='+str(gzscore)+';'+'P-value='+str(gpvalue)+';'+'EnsDiv='+str(gED)+';'+'fMFE='+str(gfMFE)+';'+'Sequence='+gsequence+';'+'MFE_Fold='+gfold+';'+'Centroid='+gcentroid+'\n')
 
             else:
@@ -194,7 +194,7 @@ if strand == "-":
                 fC = gdata[13]
                 fU = gdata[14]
 
-                corrected_file.write(gdata[0]+'\t'+gdata[1]+'\t'+gdata[2]+'\t'+gdata[3]+'\t'+gdata[4]+'\t'+gdata[5]+'\t'+gdata[6]+'\t'+gdata[7]+'\t'+gdata[8]+'\t'+gdata[9]+'\t'+gdata[10]+'\t'+gdata[11]+'\t'+gdata[12]+'\t'+gdata[13]+'\t'+gdata[14])
+                #corrected_file.write(gdata[0]+'\t'+gdata[1]+'\t'+gdata[2]+'\t'+gdata[3]+'\t'+gdata[4]+'\t'+gdata[5]+'\t'+gdata[6]+'\t'+gdata[7]+'\t'+gdata[8]+'\t'+gdata[9]+'\t'+gdata[10]+'\t'+gdata[11]+'\t'+gdata[12]+'\t'+gdata[13]+'\t'+gdata[14])
                 gff3file.write(chromosome+'\t'+'.'+'\t'+'sequence_attribute'+'\t'+str(icoordinate)+'\t'+str(jcoordinate)+'\t'+'.'+'\t'+strand+'\t'+'.\t'+'MFE='+str(gMFE)+';'+'Z-score='+str(gzscore)+';'+'P-value='+str(gpvalue)+';'+'EnsDiv='+str(gED)+';'+'fMFE='+str(gfMFE)+';'+'Sequence='+gsequence+';'+'MFE_Fold='+gfold+';'+'Centroid='+gcentroid+'\n')
 
 with open(filename, 'r') as f:

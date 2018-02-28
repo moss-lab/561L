@@ -60,8 +60,8 @@ for cur_record in SeqIO.parse(fastafile, "fasta"):
     #print(cur_record.name)
     #print(gene_sequence)
 
-corrected_file = open(filename+'.corrected.txt', 'w')
-corrected_file.write("i\tj\tMFE\trandomMFE\tZscore\tPscore\tED\tfMFE\tSequence\tFold\tCentroid\t#A\t#G\t#C\t#U")
+#corrected_file = open(filename+'.corrected.txt', 'w')
+#corrected_file.write("i\tj\tMFE\trandomMFE\tZscore\tPscore\tED\tfMFE\tSequence\tFold\tCentroid\t#A\t#G\t#C\t#U")
 
 # Open fasta with python to grab the header
 with open(fastafile, 'r') as f:
@@ -119,7 +119,7 @@ with open(filename, 'r') as g:
             fG = data[12]
             fC = data[13]
             fU = data[14]
-            corrected_file.write(data[0]+'\t'+data[1]+'\t'+data[2]+'\t'+data[3]+'\t'+data[4]+'\t'+data[5]+'\t'+data[6]+'\t'+data[7]+'\t'+data[8]+'\t'+data[9]+'\t'+data[10]+'\t'+data[11]+'\t'+data[12]+'\t'+data[13]+'\t'+data[14])
+            #corrected_file.write(data[0]+'\t'+data[1]+'\t'+data[2]+'\t'+data[3]+'\t'+data[4]+'\t'+data[5]+'\t'+data[6]+'\t'+data[7]+'\t'+data[8]+'\t'+data[9]+'\t'+data[10]+'\t'+data[11]+'\t'+data[12]+'\t'+data[13]+'\t'+data[14])
     # With metrics defined, we can place each window with
             if float(zscore) < float(threshold):
                 window = Interval(icoordinate, jcoordinate)
@@ -168,7 +168,7 @@ with open(filename, 'r') as g:
             fG = data[12]
             fC = data[13]
             fU = data[14]
-            corrected_file.write(data[0]+'\t'+data[1]+'\t'+data[2]+'\t'+data[3]+'\t'+data[4]+'\t'+data[5]+'\t'+data[6]+'\t'+data[7]+'\t'+data[8]+'\t'+data[9]+'\t'+data[10]+'\t'+data[11]+'\t'+data[12]+'\t'+data[13]+'\t'+data[14])
+            #corrected_file.write(data[0]+'\t'+data[1]+'\t'+data[2]+'\t'+data[3]+'\t'+data[4]+'\t'+data[5]+'\t'+data[6]+'\t'+data[7]+'\t'+data[8]+'\t'+data[9]+'\t'+data[10]+'\t'+data[11]+'\t'+data[12]+'\t'+data[13]+'\t'+data[14])
     # With metrics defined, we can place each window with
             if float(zscore) < float(threshold):
                 window = Interval(icoordinate, jcoordinate)
