@@ -235,12 +235,15 @@ sub ZScore {
         #print "SD: $SD\n";
 	$Sum = "";
 
-	my $return = (($SD ne 0) ? (($arr[0]-$Average)/$SD):"Undefined");
+  my $return = (($SD ne 0) ? (($arr[0]-$Average)/$SD):"Undefined");
         my $ZScore = "$return\t$average";
         chomp $ZScore;
-        $ZScore =~ s/\\n//g;
+				my @ZScore_Data = split(/\s+/, $ZScore);
+        #$ZScore =~ s/\\n//g;
         #print "My return is $return\n";
+
 		my $Output = substr($ZScore, 0, 5);
+		#my $Output = substr($ZScore_Data[0], 0, 5);
 	return $Output;
 }
 
