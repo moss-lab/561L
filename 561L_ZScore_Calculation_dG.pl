@@ -242,8 +242,8 @@ sub ZScore {
         #$ZScore =~ s/\\n//g;
         #print "My return is $return\n";
 
-		my $Output = substr($ZScore, 0, 5);
-		#my $Output = substr($ZScore_Data[0], 0, 5);
+		#my $Output = substr($ZScore, 0, 5);
+		my $Output = substr($ZScore_Data[0], 0, 5);
 	return $Output;
 }
 
