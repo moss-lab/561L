@@ -264,11 +264,11 @@ if strand == "1":
             print("Region coordinates:", x)
             #print(type(x))
             i = x.start
-            j = int((x.end))-1
+            j = int(x.end)+1
             #i = Interval.start()
             #j = Interval.end()
             frag = cur_record.seq[i:j]
-            record = SeqRecord(frag, '%s dna:chromosome chromosome:GRCh38:%s:%i:%i:%s' % (chromosome, chromosome, i+int(genomic_start), j+int(genomic_start), strand), '', '')
+            record = SeqRecord(frag, '%s dna:chromosome chromosome:GRCh38:%s:%i:%i:%s' % (chromosome, chromosome, i+int(genomic_start), j+(int(genomic_start))-2, strand), '', '')
             frags.append(record)
 
     SeqIO.write(frags, fastafile+".seq_cutoff_("+threshold+").fa", "fasta")
