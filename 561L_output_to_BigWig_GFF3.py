@@ -149,11 +149,11 @@ with open(filename, 'r') as g:
                         gff3file.write(chromosome+'\t'+'.'+'\t'+'sequence_attribute'+'\t'+str(icoordinate)+'\t'+str(jcoordinate)+'\t'+'.'+'\t'+strand+'\t'+'.\t'+'MFE='+str(gMFE)+';'+'Z-score='+str(gzscore)+';'+'P-value='+str(gpvalue)+';'+'EnsDiv='+str(gED)+';'+'fMFE='+str(gfMFE)+';'+'Sequence='+gsequence+';'+'MFE_Fold='+gfold+';'+'Centroid='+gcentroid+'\n')
 
                 else:
-                    print("else")
+                    #print("else")
                     if len(gdata) > 14:
                         print("Errors found in file")
                         print("Error in column six:", gdata)
-                        gdata.remove(gdata[5])
+                        gdata.remove(gdata[4])
                         #corrected_row = ('\t'.join(data))
                         print("Error removed:", gdata)
                         #print(row)
@@ -295,8 +295,8 @@ with open(filename, 'r') as g:
                 else:
                     if len(gdata) > 14:
                         print("Errors found in file")
-                        print("Error in column six:", gdata)
-                        gdata.remove(gdata[5])
+                        print("Error in column five:", gdata)
+                        gdata.remove(gdata[4])
                         #corrected_row = ('\t'.join(data))
                         print("Error removed:", gdata)
                         #print(row)
@@ -408,8 +408,8 @@ with open(filename, 'r') as f:
                 else:
                     if len(data) > 14:
                         print("Errors found in file")
-                        print("Error in column six:", data)
-                        data.remove(data[5])
+                        print("Error in column five:", data)
+                        data.remove(data[4])
                         #corrected_row = ('\t'.join(data))
                         print("Error removed:", data)
 
@@ -512,8 +512,8 @@ with open(filename, 'r') as f:
                 else:
                     if len(data) > 14:
                         print("Errors found in file")
-                        print("Error in column six:", data)
-                        data.remove(data[5])
+                        print("Error in column five:", data)
+                        data.remove(data[4])
                         #corrected_row = ('\t'.join(data))
                         print("Error removed:", data)
 
