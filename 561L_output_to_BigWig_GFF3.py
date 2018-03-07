@@ -71,7 +71,7 @@ with open(filename, 'r') as g:
                 (("A" or "G" or "C" or "U") in gdata[8])) or (len(str(gdata[9])) == window_size and
                 (float(gdata[4]) == 0) and
                 (("A" or "G" or "C" or "U") in gdata[9])):
-                    print("Sequence in column 9")
+                    #print("Sequence in column 9")
                     #float(gdata[7])
                     gdata = row.split('\t') # this splits each row based on "tab"
                     if len(gdata) > 15:
@@ -84,7 +84,7 @@ with open(filename, 'r') as g:
                         #icoordinate = int((int(data[0])+int(genomic_start)-1))
                         #jcoordinate = int(int(data[1])+int(genomic_start))
                         icoordinate = (int(gdata[0])-1)+int(genomic_start)
-                        jcoordinate = (int(gdata[1]))+int(genomic_start)
+                        jcoordinate = (int(gdata[1])-1)+int(genomic_start)
                         window_size = jcoordinate - icoordinate
                     #       if strand == '-1':
                     #           icoordinate = int(int(genomic_start)+(int(length)-int(data[1])))
@@ -117,7 +117,7 @@ with open(filename, 'r') as g:
                     else:
                         print("passed length test")
                         icoordinate = (int(gdata[0])-1)+int(genomic_start)
-                        jcoordinate = (int(gdata[1]))+int(genomic_start)
+                        jcoordinate = (int(gdata[1])-1)+int(genomic_start)
                         window_size = jcoordinate - icoordinate
                     #        if strand == '-1':
                     #            icoordinate = int(int(genomic_start)+(int(length)-int(data[1])))
@@ -160,7 +160,7 @@ with open(filename, 'r') as g:
                         #icoordinate = int((int(data[0])+int(genomic_start)-1))
                         #jcoordinate = int(int(data[1])+int(genomic_start))
                         icoordinate = (int(gdata[0])-1)+int(genomic_start)
-                        jcoordinate = (int(gdata[1]))+int(genomic_start)
+                        jcoordinate = (int(gdata[1])-1)+int(genomic_start)
                         window_size = jcoordinate - icoordinate
                 #        if strand == '-1':
                 #            icoordinate = int(int(genomic_start)+(int(length)-int(data[1])))
@@ -193,7 +193,7 @@ with open(filename, 'r') as g:
                     else:
                         #print(len(gdata))
                         icoordinate = (int(gdata[0])-1)+int(genomic_start)
-                        jcoordinate = (int(gdata[1]))+int(genomic_start)
+                        jcoordinate = (int(gdata[1])-1)+int(genomic_start)
                         window_size = jcoordinate - icoordinate
                 #        if strand == '-1':
                 #            icoordinate = int(int(genomic_start)+(int(length)-int(data[1])))
