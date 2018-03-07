@@ -264,7 +264,7 @@ if strand == "1":
             print("Region coordinates:", x)
             #print(type(x))
             i = x.start
-            j = x.end
+            j = int((x.end))-1
             #i = Interval.start()
             #j = Interval.end()
             frag = cur_record.seq[i:j]
