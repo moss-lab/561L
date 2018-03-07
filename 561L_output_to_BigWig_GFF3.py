@@ -57,266 +57,511 @@ fMFE_list = []
 length = (int(genomic_end) - int(genomic_start)) + 1
 #print(length)
 
-
-if strand == "+":
-    with open(filename, 'r') as g:
+with open(filename, 'r') as g:
+    if strand == "+": # Generating GFF3 file for forward strand
         glines = g.readlines()[1:]
         #print(row)
         for row in glines:
-            gdata = row.split('\t') # this splits each row based on "tab"
-            if len(gdata) > 15:
-                print("Errors found in file")
-                print("Error in column six:", gdata)
-                gdata.remove(gdata[5])
-                #corrected_row = ('\t'.join(data))
-                print("Error removed:", gdata)
-                #print(row)
-                #icoordinate = int((int(data[0])+int(genomic_start)-1))
-                #jcoordinate = int(int(data[1])+int(genomic_start))
-                icoordinate = (int(gdata[0])-1)+int(genomic_start)
-                jcoordinate = (int(gdata[1]))+int(genomic_start)
-                window_size = jcoordinate - icoordinate
-        #        if strand == '-1':
-        #            icoordinate = int(int(genomic_start)+(int(length)-int(data[1])))
-        #            jcoordinate = int(int(genomic_start)+(int(length)-int(data[0])))
-                MFE = float(gdata[2])
-                rand_MFE = float(gdata[3])
-                zscore = gdata[4]
-                if zscore == "Undef":
-                    zscore = float(00000)
-                else:
-                    zscore = float(gdata[4])
-                pvalue = gdata[5]
-                #try:
-                #    pvalue = float(gdata[5])
-                #except ValueError:
-                #    print(str(gdata[5]))
-                #    pvalue =float(0)
-                gED = float(gdata[6])
-                gfMFE = float(gdata[7])
-                gwindow_sequence = gdata[8]
-                gfold = gdata[9]
-                gcentroid = gdata[10]
-                gfA = gdata[11]
-                gfG = gdata[12]
-                gfC = gdata[13]
-                gfU = gdata[14]
-                #corrected_file.write(gdata[0]+'\t'+gdata[1]+'\t'+gdata[2]+'\t'+gdata[3]+'\t'+gdata[4]+'\t'+gdata[5]+'\t'+gdata[6]+'\t'+gdata[7]+'\t'+gdata[8]+'\t'+gdata[9]+'\t'+gdata[10]+'\t'+gdata[11]+'\t'+gdata[12]+'\t'+gdata[13]+'\t'+gdata[14])
-                gff3file.write(chromosome+'\t'+'.'+'\t'+'sequence_attribute'+'\t'+str(icoordinate)+'\t'+str(jcoordinate)+'\t'+'.'+'\t'+strand+'\t'+'.\t'+'MFE='+str(gMFE)+';'+'Z-score='+str(gzscore)+';'+'P-value='+str(gpvalue)+';'+'EnsDiv='+str(gED)+';'+'fMFE='+str(gfMFE)+';'+'Sequence='+gsequence+';'+'MFE_Fold='+gfold+';'+'Centroid='+gcentroid+'\n')
-
+            if not row.strip():
+                continue
             else:
-                icoordinate = (int(gdata[0])-1)+int(genomic_start)
-                jcoordinate = (int(gdata[1]))+int(genomic_start)
-                window_size = jcoordinate - icoordinate
-        #        if strand == '-1':
-        #            icoordinate = int(int(genomic_start)+(int(length)-int(data[1])))
-        #            jcoordinate = int(int(genomic_start)+(int(length)-int(data[0])))
-                gMFE = float(gdata[2])
-                grand_MFE = float(gdata[3])
-                gzscore = gdata[4]
-                if gzscore == "Undef":
-                    gzscore = float(00000)
+                gdata = row.split('\t') # this splits each row based on "tab"
+                if ((len(str(gdata[8])) == window_size) and
+                (float(gdata[3]) != 0) and
+                (("A" or "G" or "C" or "U") in gdata[8])) or (len(str(gdata[9])) == window_size and
+                (float(gdata[4]) == 0) and
+                (("A" or "G" or "C" or "U") in gdata[9])):
+                    print("Sequence in column 9")
+                    #float(gdata[7])
+                    gdata = row.split('\t') # this splits each row based on "tab"
+                    if len(gdata) > 15:
+                        print("Errors found in file")
+                        print("Error in column six:", gdata)
+                        gdata.remove(gdata[5])
+                        #corrected_row = ('\t'.join(data))
+                        print("Error removed:", gdata)
+                        #print(row)
+                        #icoordinate = int((int(data[0])+int(genomic_start)-1))
+                        #jcoordinate = int(int(data[1])+int(genomic_start))
+                        icoordinate = (int(gdata[0])-1)+int(genomic_start)
+                        jcoordinate = (int(gdata[1]))+int(genomic_start)
+                        window_size = jcoordinate - icoordinate
+                    #       if strand == '-1':
+                    #           icoordinate = int(int(genomic_start)+(int(length)-int(data[1])))
+                    #           jcoordinate = int(int(genomic_start)+(int(length)-int(data[0])))
+                        MFE = float(gdata[2])
+                        rand_MFE = float(gdata[3])
+                        zscore = gdata[4]
+                        if zscore == "Undef":
+                            zscore = float(00000)
+                        else:
+                            zscore = float(gdata[4])
+                        pvalue = gdata[5]
+                        #try:
+                        #    pvalue = float(gdata[5])
+                        #except ValueError:
+                        #    print(str(gdata[5]))
+                        #    pvalue =float(0)
+                        gED = float(gdata[6])
+                        gfMFE = float(gdata[7])
+                        gwindow_sequence = gdata[8]
+                        gfold = gdata[9]
+                        gcentroid = gdata[10]
+                        gfA = gdata[11]
+                        gfG = gdata[12]
+                        gfC = gdata[13]
+                        gfU = gdata[14]
+                        #corrected_file.write(gdata[0]+'\t'+gdata[1]+'\t'+gdata[2]+'\t'+gdata[3]+'\t'+gdata[4]+'\t'+gdata[5]+'\t'+gdata[6]+'\t'+gdata[7]+'\t'+gdata[8]+'\t'+gdata[9]+'\t'+gdata[10]+'\t'+gdata[11]+'\t'+gdata[12]+'\t'+gdata[13]+'\t'+gdata[14])
+                        gff3file.write(chromosome+'\t'+'.'+'\t'+'sequence_attribute'+'\t'+str(icoordinate)+'\t'+str(jcoordinate)+'\t'+'.'+'\t'+strand+'\t'+'.\t'+'MFE='+str(gMFE)+';'+'Z-score='+str(gzscore)+';'+'P-value='+str(gpvalue)+';'+'EnsDiv='+str(gED)+';'+'fMFE='+str(gfMFE)+';'+'Sequence='+gsequence+';'+'MFE_Fold='+gfold+';'+'Centroid='+gcentroid+'\n')
+
+                    else:
+                        print("passed length test")
+                        icoordinate = (int(gdata[0])-1)+int(genomic_start)
+                        jcoordinate = (int(gdata[1]))+int(genomic_start)
+                        window_size = jcoordinate - icoordinate
+                    #        if strand == '-1':
+                    #            icoordinate = int(int(genomic_start)+(int(length)-int(data[1])))
+                    #            jcoordinate = int(int(genomic_start)+(int(length)-int(data[0])))
+                        gMFE = float(gdata[2])
+                        grand_MFE = float(gdata[3])
+                        gzscore = gdata[4]
+                        if gzscore == "Undef":
+                            gzscore = float(00000)
+                        else:
+                            gzscore = float(gdata[4])
+                        gpvalue = gdata[5]
+                        try:
+                            gpvalue = float(gdata[5])
+                        except ValueError:
+                            print(str(gdata[5]))
+                            gpvalue =float(0)
+                        gED = float(gdata[6])
+                        gfMFE = float(gdata[7])
+                        gsequence = gdata[8]
+                        gfold = gdata[9]
+                        gcentroid = gdata[10]
+                        gfA = gdata[11]
+                        gfG = gdata[12]
+                        gfC = gdata[13]
+                        gfU = gdata[14]
+
+                        #corrected_file.write(gdata[0]+'\t'+gdata[1]+'\t'+gdata[2]+'\t'+gdata[3]+'\t'+gdata[4]+'\t'+gdata[5]+'\t'+gdata[6]+'\t'+gdata[7]+'\t'+gdata[8]+'\t'+gdata[9]+'\t'+gdata[10]+'\t'+gdata[11]+'\t'+gdata[12]+'\t'+gdata[13]+'\t'+gdata[14])
+                        gff3file.write(chromosome+'\t'+'.'+'\t'+'sequence_attribute'+'\t'+str(icoordinate)+'\t'+str(jcoordinate)+'\t'+'.'+'\t'+strand+'\t'+'.\t'+'MFE='+str(gMFE)+';'+'Z-score='+str(gzscore)+';'+'P-value='+str(gpvalue)+';'+'EnsDiv='+str(gED)+';'+'fMFE='+str(gfMFE)+';'+'Sequence='+gsequence+';'+'MFE_Fold='+gfold+';'+'Centroid='+gcentroid+'\n')
+
                 else:
-                    gzscore = float(gdata[4])
-                gpvalue = gdata[5]
-                try:
-                    gpvalue = float(gdata[5])
-                except ValueError:
-                    print(str(gdata[5]))
-                    gpvalue =float(0)
-                gED = float(gdata[6])
-                gfMFE = float(gdata[7])
-                gsequence = gdata[8]
-                gfold = gdata[9]
-                gcentroid = gdata[10]
-                gfA = gdata[11]
-                gfG = gdata[12]
-                gfC = gdata[13]
-                gfU = gdata[14]
+                    print("else")
+                    if len(gdata) > 14:
+                        print("Errors found in file")
+                        print("Error in column six:", gdata)
+                        gdata.remove(gdata[5])
+                        #corrected_row = ('\t'.join(data))
+                        print("Error removed:", gdata)
+                        #print(row)
+                        #icoordinate = int((int(data[0])+int(genomic_start)-1))
+                        #jcoordinate = int(int(data[1])+int(genomic_start))
+                        icoordinate = (int(gdata[0])-1)+int(genomic_start)
+                        jcoordinate = (int(gdata[1]))+int(genomic_start)
+                        window_size = jcoordinate - icoordinate
+                #        if strand == '-1':
+                #            icoordinate = int(int(genomic_start)+(int(length)-int(data[1])))
+                #            jcoordinate = int(int(genomic_start)+(int(length)-int(data[0])))
+                        MFE = float(gdata[2])
+                        #rand_MFE = float(gdata[3])
+                        zscore = gdata[3]
+                        if zscore == "Undef":
+                            zscore = float(00000)
+                        else:
+                            zscore = float(gdata[3])
+                        pvalue = gdata[4]
+                        #try:
+                        #    pvalue = float(gdata[5])
+                        #except ValueError:
+                        #    print(str(gdata[5]))
+                        #    pvalue =float(0)
+                        gED = float(gdata[5])
+                        gfMFE = float(gdata[6])
+                        gwindow_sequence = gdata[7]
+                        gfold = gdata[8]
+                        gcentroid = gdata[9]
+                        gfA = gdata[10]
+                        gfG = gdata[11]
+                        gfC = gdata[12]
+                        gfU = gdata[13]
+                        #corrected_file.write(gdata[0]+'\t'+gdata[1]+'\t'+gdata[2]+'\t'+gdata[3]+'\t'+gdata[4]+'\t'+gdata[5]+'\t'+gdata[6]+'\t'+gdata[7]+'\t'+gdata[8]+'\t'+gdata[9]+'\t'+gdata[10]+'\t'+gdata[11]+'\t'+gdata[12]+'\t'+gdata[13]+'\t'+gdata[14])
+                        gff3file.write(chromosome+'\t'+'.'+'\t'+'sequence_attribute'+'\t'+str(icoordinate)+'\t'+str(jcoordinate)+'\t'+'.'+'\t'+strand+'\t'+'.\t'+'MFE='+str(gMFE)+';'+'Z-score='+str(gzscore)+';'+'P-value='+str(gpvalue)+';'+'EnsDiv='+str(gED)+';'+'fMFE='+str(gfMFE)+';'+'Sequence='+gsequence+';'+'MFE_Fold='+gfold+';'+'Centroid='+gcentroid+'\n')
 
-                #corrected_file.write(gdata[0]+'\t'+gdata[1]+'\t'+gdata[2]+'\t'+gdata[3]+'\t'+gdata[4]+'\t'+gdata[5]+'\t'+gdata[6]+'\t'+gdata[7]+'\t'+gdata[8]+'\t'+gdata[9]+'\t'+gdata[10]+'\t'+gdata[11]+'\t'+gdata[12]+'\t'+gdata[13]+'\t'+gdata[14])
-                gff3file.write(chromosome+'\t'+'.'+'\t'+'sequence_attribute'+'\t'+str(icoordinate)+'\t'+str(jcoordinate)+'\t'+'.'+'\t'+strand+'\t'+'.\t'+'MFE='+str(gMFE)+';'+'Z-score='+str(gzscore)+';'+'P-value='+str(gpvalue)+';'+'EnsDiv='+str(gED)+';'+'fMFE='+str(gfMFE)+';'+'Sequence='+gsequence+';'+'MFE_Fold='+gfold+';'+'Centroid='+gcentroid+'\n')
+                    else:
+                        #print(len(gdata))
+                        icoordinate = (int(gdata[0])-1)+int(genomic_start)
+                        jcoordinate = (int(gdata[1]))+int(genomic_start)
+                        window_size = jcoordinate - icoordinate
+                #        if strand == '-1':
+                #            icoordinate = int(int(genomic_start)+(int(length)-int(data[1])))
+                #            jcoordinate = int(int(genomic_start)+(int(length)-int(data[0])))
+                        gMFE = float(gdata[2])
+                        #grand_MFE = float(gdata[3])
+                        gzscore = gdata[3]
+                        if gzscore == "Undef":
+                            gzscore = float(00000)
+                        else:
+                            gzscore = float(gdata[3])
+                        gpvalue = gdata[3]
+                        try:
+                            gpvalue = float(gdata[4])
+                        except ValueError:
+                            print(str(gdata[4]))
+                            gpvalue =float(0)
+                        gED = float(gdata[5])
+                        gfMFE = float(gdata[6])
+                        gsequence = gdata[7]
+                        gfold = gdata[8]
+                        gcentroid = gdata[9]
+                        gfA = gdata[10]
+                        gfG = gdata[11]
+                        gfC = gdata[12]
+                        gfU = gdata[13]
 
-if strand == "-":
-    with open(filename, 'r') as g:
+                        #corrected_file.write(gdata[0]+'\t'+gdata[1]+'\t'+gdata[2]+'\t'+gdata[3]+'\t'+gdata[4]+'\t'+gdata[5]+'\t'+gdata[6]+'\t'+gdata[7]+'\t'+gdata[8]+'\t'+gdata[9]+'\t'+gdata[10]+'\t'+gdata[11]+'\t'+gdata[12]+'\t'+gdata[13]+'\t'+gdata[14])
+                        gff3file.write(chromosome+'\t'+'.'+'\t'+'sequence_attribute'+'\t'+str(icoordinate)+'\t'+str(jcoordinate)+'\t'+'.'+'\t'+strand+'\t'+'.\t'+'MFE='+str(gMFE)+';'+'Z-score='+str(gzscore)+';'+'P-value='+str(gpvalue)+';'+'EnsDiv='+str(gED)+';'+'fMFE='+str(gfMFE)+';'+'Sequence='+gsequence+';'+'MFE_Fold='+gfold+';'+'Centroid='+gcentroid+'\n')
+
+    if strand == "-": #Generating GFF3 file for reverse strand
         glines = g.readlines()[1:]
         for row in glines:
-            gdata = row.split('\t') # this splits each row based on "tab"
-            if len(gdata) > 15:
-                print("Errors found in file")
-                print("Error in column six:", gdata)
-                gdata.remove(gdata[5])
-                #corrected_row = ('\t'.join(data))
-                print("Error removed:", gdata)
-                #print(row)
-                #icoordinate = int((int(data[0])+int(genomic_start)-1))
-                #jcoordinate = int(int(data[1])+int(genomic_start))
-                #print(data)
-                #print(gdata)
-                #print(data)
-                icoordinate = int(int(genomic_start)+(int(length)-int(gdata[1])))
-                jcoordinate = int(int(genomic_start)+(int(length)-int(gdata[0])))
-                gMFE = gdata[2]
-                g_rand_MFE = gdata[3]
-                gzscore = gdata[4]
-                if gzscore == "Undef":
-                    gzscore = 00000
-                gpvalue = gdata[5]
-                gED = gdata[6]
-                gfMFE = gdata[7]
-                gsequence = gdata[8]
-                gfold = gdata[9]
-                gcentroid = gdata[10]
-                fA = gdata[11]
-                fG = gdata[12]
-                fC = gdata[13]
-                fU = gdata[14]
-
-                #corrected_file.write(gdata[0]+'\t'+gdata[1]+'\t'+gdata[2]+'\t'+gdata[3]+'\t'+gdata[4]+'\t'+gdata[5]+'\t'+gdata[6]+'\t'+gdata[7]+'\t'+gdata[8]+'\t'+gdata[9]+'\t'+gdata[10]+'\t'+gdata[11]+'\t'+gdata[12]+'\t'+gdata[13]+'\t'+gdata[14])
-                gff3file.write(chromosome+'\t'+'.'+'\t'+'sequence_attribute'+'\t'+str(icoordinate)+'\t'+str(jcoordinate)+'\t'+'.'+'\t'+strand+'\t'+'.\t'+'MFE='+str(gMFE)+';'+'Z-score='+str(gzscore)+';'+'P-value='+str(gpvalue)+';'+'EnsDiv='+str(gED)+';'+'fMFE='+str(gfMFE)+';'+'Sequence='+gsequence+';'+'MFE_Fold='+gfold+';'+'Centroid='+gcentroid+'\n')
-
+            if not row.strip():
+                continue
             else:
-                icoordinate = int(int(genomic_start)+(int(length)-int(gdata[1])))
-                jcoordinate = int(int(genomic_start)+(int(length)-int(gdata[0])))
-                gMFE = gdata[2]
-                g_rand_MFE = gdata[3]
-                gzscore = gdata[4]
-                if gzscore == "Undef":
-                    gzscore = 00000
-                gpvalue = gdata[5]
-                gED = gdata[6]
-                gfMFE = gdata[7]
-                gsequence = gdata[8]
-                gfold = gdata[9]
-                gcentroid = gdata[10]
-                fA = gdata[11]
-                fG = gdata[12]
-                fC = gdata[13]
-                fU = gdata[14]
+                gdata = row.split('\t') # this splits each row based on "tab"
+                if ((len(str(gdata[8])) == window_size) and
+                (float(gdata[3]) != 0) and
+                (("A" or "G" or "C" or "U") in gdata[8])) or (len(str(gdata[9])) == window_size and
+                (float(gdata[4]) == 0) and
+                (("A" or "G" or "C" or "U") in gdata[9])):
+                    #float(gdata[7])
+                    if len(gdata) > 15:
+                        print("Errors found in file")
+                        print("Error in column six:", gdata)
+                        gdata.remove(gdata[5])
+                        #corrected_row = ('\t'.join(data))
+                        print("Error removed:", gdata)
+                        #print(row)
+                        #icoordinate = int((int(data[0])+int(genomic_start)-1))
+                        #jcoordinate = int(int(data[1])+int(genomic_start))
+                        #print(data)
+                        #print(gdata)
+                        #print(data)
+                        icoordinate = int(int(genomic_start)+(int(length)-int(gdata[1])))
+                        jcoordinate = int(int(genomic_start)+(int(length)-int(gdata[0])))
+                        gMFE = gdata[2]
+                        g_rand_MFE = gdata[3]
+                        gzscore = gdata[4]
+                        if gzscore == "Undef":
+                            gzscore = 00000
+                        gpvalue = gdata[5]
+                        gED = gdata[6]
+                        gfMFE = gdata[7]
+                        gsequence = gdata[8]
+                        gfold = gdata[9]
+                        gcentroid = gdata[10]
+                        fA = gdata[11]
+                        fG = gdata[12]
+                        fC = gdata[13]
+                        fU = gdata[14]
 
-                #corrected_file.write(gdata[0]+'\t'+gdata[1]+'\t'+gdata[2]+'\t'+gdata[3]+'\t'+gdata[4]+'\t'+gdata[5]+'\t'+gdata[6]+'\t'+gdata[7]+'\t'+gdata[8]+'\t'+gdata[9]+'\t'+gdata[10]+'\t'+gdata[11]+'\t'+gdata[12]+'\t'+gdata[13]+'\t'+gdata[14])
-                gff3file.write(chromosome+'\t'+'.'+'\t'+'sequence_attribute'+'\t'+str(icoordinate)+'\t'+str(jcoordinate)+'\t'+'.'+'\t'+strand+'\t'+'.\t'+'MFE='+str(gMFE)+';'+'Z-score='+str(gzscore)+';'+'P-value='+str(gpvalue)+';'+'EnsDiv='+str(gED)+';'+'fMFE='+str(gfMFE)+';'+'Sequence='+gsequence+';'+'MFE_Fold='+gfold+';'+'Centroid='+gcentroid+'\n')
+                        #corrected_file.write(gdata[0]+'\t'+gdata[1]+'\t'+gdata[2]+'\t'+gdata[3]+'\t'+gdata[4]+'\t'+gdata[5]+'\t'+gdata[6]+'\t'+gdata[7]+'\t'+gdata[8]+'\t'+gdata[9]+'\t'+gdata[10]+'\t'+gdata[11]+'\t'+gdata[12]+'\t'+gdata[13]+'\t'+gdata[14])
+                        gff3file.write(chromosome+'\t'+'.'+'\t'+'sequence_attribute'+'\t'+str(icoordinate)+'\t'+str(jcoordinate)+'\t'+'.'+'\t'+strand+'\t'+'.\t'+'MFE='+str(gMFE)+';'+'Z-score='+str(gzscore)+';'+'P-value='+str(gpvalue)+';'+'EnsDiv='+str(gED)+';'+'fMFE='+str(gfMFE)+';'+'Sequence='+gsequence+';'+'MFE_Fold='+gfold+';'+'Centroid='+gcentroid+'\n')
+
+                    else:
+                        icoordinate = int(int(genomic_start)+(int(length)-int(gdata[1])))
+                        jcoordinate = int(int(genomic_start)+(int(length)-int(gdata[0])))
+                        gMFE = gdata[2]
+                        g_rand_MFE = gdata[3]
+                        gzscore = gdata[4]
+                        if gzscore == "Undef":
+                            gzscore = 00000
+                        gpvalue = gdata[5]
+                        gED = gdata[6]
+                        gfMFE = gdata[7]
+                        gsequence = gdata[8]
+                        gfold = gdata[9]
+                        gcentroid = gdata[10]
+                        fA = gdata[11]
+                        fG = gdata[12]
+                        fC = gdata[13]
+                        fU = gdata[14]
+
+                        #corrected_file.write(gdata[0]+'\t'+gdata[1]+'\t'+gdata[2]+'\t'+gdata[3]+'\t'+gdata[4]+'\t'+gdata[5]+'\t'+gdata[6]+'\t'+gdata[7]+'\t'+gdata[8]+'\t'+gdata[9]+'\t'+gdata[10]+'\t'+gdata[11]+'\t'+gdata[12]+'\t'+gdata[13]+'\t'+gdata[14])
+                        gff3file.write(chromosome+'\t'+'.'+'\t'+'sequence_attribute'+'\t'+str(icoordinate)+'\t'+str(jcoordinate)+'\t'+'.'+'\t'+strand+'\t'+'.\t'+'MFE='+str(gMFE)+';'+'Z-score='+str(gzscore)+';'+'P-value='+str(gpvalue)+';'+'EnsDiv='+str(gED)+';'+'fMFE='+str(gfMFE)+';'+'Sequence='+gsequence+';'+'MFE_Fold='+gfold+';'+'Centroid='+gcentroid+'\n')
+
+                else:
+                    if len(gdata) > 14:
+                        print("Errors found in file")
+                        print("Error in column six:", gdata)
+                        gdata.remove(gdata[5])
+                        #corrected_row = ('\t'.join(data))
+                        print("Error removed:", gdata)
+                        #print(row)
+                        #icoordinate = int((int(data[0])+int(genomic_start)-1))
+                        #jcoordinate = int(int(data[1])+int(genomic_start))
+                        #print(data)
+                        #print(gdata)
+                        #print(data)
+                        icoordinate = int(int(genomic_start)+(int(length)-int(gdata[1])))
+                        jcoordinate = int(int(genomic_start)+(int(length)-int(gdata[0])))
+                        gMFE = gdata[2]
+                        #g_rand_MFE = gdata[3]
+                        gzscore = gdata[3]
+                        if gzscore == "Undef":
+                            gzscore = 00000
+                        gpvalue = gdata[4]
+                        gED = gdata[5]
+                        gfMFE = gdata[7]
+                        gsequence = gdata[8]
+                        gfold = gdata[9]
+                        gcentroid = gdata[10]
+                        fA = gdata[11]
+                        fG = gdata[12]
+                        fC = gdata[13]
+                        fU = gdata[14]
+
+                        #corrected_file.write(gdata[0]+'\t'+gdata[1]+'\t'+gdata[2]+'\t'+gdata[3]+'\t'+gdata[4]+'\t'+gdata[5]+'\t'+gdata[6]+'\t'+gdata[7]+'\t'+gdata[8]+'\t'+gdata[9]+'\t'+gdata[10]+'\t'+gdata[11]+'\t'+gdata[12]+'\t'+gdata[13]+'\t'+gdata[14])
+                        gff3file.write(chromosome+'\t'+'.'+'\t'+'sequence_attribute'+'\t'+str(icoordinate)+'\t'+str(jcoordinate)+'\t'+'.'+'\t'+strand+'\t'+'.\t'+'MFE='+str(gMFE)+';'+'Z-score='+str(gzscore)+';'+'P-value='+str(gpvalue)+';'+'EnsDiv='+str(gED)+';'+'fMFE='+str(gfMFE)+';'+'Sequence='+gsequence+';'+'MFE_Fold='+gfold+';'+'Centroid='+gcentroid+'\n')
+
+                    else:
+                        icoordinate = int(int(genomic_start)+(int(length)-int(gdata[1])))
+                        jcoordinate = int(int(genomic_start)+(int(length)-int(gdata[0])))
+                        gMFE = gdata[2]
+                        #g_rand_MFE = gdata[3]
+                        gzscore = gdata[3]
+                        if gzscore == "Undef":
+                            gzscore = 00000
+                        gpvalue = gdata[4]
+                        gED = gdata[5]
+                        gfMFE = gdata[6]
+                        gsequence = gdata[7]
+                        gfold = gdata[8]
+                        gcentroid = gdata[9]
+                        fA = gdata[10]
+                        fG = gdata[11]
+                        fC = gdata[12]
+                        fU = gdata[13]
+
+                        #corrected_file.write(gdata[0]+'\t'+gdata[1]+'\t'+gdata[2]+'\t'+gdata[3]+'\t'+gdata[4]+'\t'+gdata[5]+'\t'+gdata[6]+'\t'+gdata[7]+'\t'+gdata[8]+'\t'+gdata[9]+'\t'+gdata[10]+'\t'+gdata[11]+'\t'+gdata[12]+'\t'+gdata[13]+'\t'+gdata[14])
+                        gff3file.write(chromosome+'\t'+'.'+'\t'+'sequence_attribute'+'\t'+str(icoordinate)+'\t'+str(jcoordinate)+'\t'+'.'+'\t'+strand+'\t'+'.\t'+'MFE='+str(gMFE)+';'+'Z-score='+str(gzscore)+';'+'P-value='+str(gpvalue)+';'+'EnsDiv='+str(gED)+';'+'fMFE='+str(gfMFE)+';'+'Sequence='+gsequence+';'+'MFE_Fold='+gfold+';'+'Centroid='+gcentroid+'\n')
 
 with open(filename, 'r') as f:
-    if strand == "+":
+    if strand == "+": #Generating BW tracks for forward strand.
         genomic_start = int(genomic_start)
         lines = f.readlines()[1:]
         for row in lines:
-            data = row.split('\t') # this splits each row based on "tab
-            #print(len(data))
-            if len(data) > 15:
-                print("Errors found in file")
-                print("Error in column six:", data)
-                data.remove(data[5])
-                #corrected_row = ('\t'.join(data))
-                print("Error removed:", data)
-
-                i = data[0]
-                j = data[1]
-                genomic_end = int(genomic_start)+int(step_size)
-                MFE = float(data[2])
-                MFE_list.append(MFE)
-                if data[4] == "Undef":
-                    zscore = float(00000)
-                else:
-                    zscore = float(data[4])
-                zscore_list.append(zscore)
-                pscore = float(data[5])
-                pscore_list.append(pscore)
-                ED = float(data[6])
-                ED_list.append(ED)
-                fMFE = float(data[7])
-                fMFE_list.append(fMFE)
-
-            #print(len(data))
+            if not row.strip():
+                continue
             else:
-                i = data[0]
-                j = data[1]
-                genomic_end = int(genomic_start)+int(step_size)
-                MFE = float(data[2])
-                MFE_list.append(MFE)
-                if data[4] == "Undef":
-                    zscore = float(00000)
+                data = row.split('\t') # this splits each row based on "tab"
+                if ((len(str(data[8])) == window_size) and
+                (float(data[3]) != 0) and
+                (("A" or "G" or "C" or "U") in data[8])) or (len(str(data[9])) == window_size and
+                (float(data[4]) == 0) and
+                (("A" or "G" or "C" or "U") in data[9])):
+                    if len(data) > 15:
+                        print("Errors found in file")
+                        print("Error in column six:", data)
+                        data.remove(data[5])
+                        #corrected_row = ('\t'.join(data))
+                        print("Error removed:", data)
+
+                        i = data[0]
+                        j = data[1]
+                        genomic_end = int(genomic_start)+int(step_size)
+                        MFE = float(data[2])
+                        MFE_list.append(MFE)
+                        if data[4] == "Undef":
+                            zscore = float(00000)
+                        else:
+                            zscore = float(data[4])
+                        zscore_list.append(zscore)
+                        pscore = float(data[5])
+                        pscore_list.append(pscore)
+                        ED = float(data[6])
+                        ED_list.append(ED)
+                        fMFE = float(data[7])
+                        fMFE_list.append(fMFE)
+
+                    #print(len(data))
+                    else:
+                        i = data[0]
+                        j = data[1]
+                        genomic_end = int(genomic_start)+int(step_size)
+                        MFE = float(data[2])
+                        MFE_list.append(MFE)
+                        if data[4] == "Undef":
+                            zscore = float(00000)
+                        else:
+                            zscore = float(data[4])
+                        zscore_list.append(zscore)
+                        pscore = float(data[5])
+                        pscore_list.append(pscore)
+                        ED = float(data[6])
+                        ED_list.append(ED)
+                        fMFE = float(data[7])
+                        fMFE_list.append(fMFE)
+
                 else:
-                    zscore = float(data[4])
-                zscore_list.append(zscore)
-                pscore = float(data[5])
-                pscore_list.append(pscore)
-                ED = float(data[6])
-                ED_list.append(ED)
-                fMFE = float(data[7])
-                fMFE_list.append(fMFE)
+                    if len(data) > 14:
+                        print("Errors found in file")
+                        print("Error in column six:", data)
+                        data.remove(data[5])
+                        #corrected_row = ('\t'.join(data))
+                        print("Error removed:", data)
 
+                        i = data[0]
+                        j = data[1]
+                        genomic_end = int(genomic_start)+int(step_size)
+                        MFE = float(data[2])
+                        MFE_list.append(MFE)
+                        if data[3] == "Undef":
+                            zscore = float(00000)
+                        else:
+                            zscore = float(data[3])
+                        zscore_list.append(zscore)
+                        pscore = float(data[4])
+                        pscore_list.append(pscore)
+                        ED = float(data[5])
+                        ED_list.append(ED)
+                        fMFE = float(data[6])
+                        fMFE_list.append(fMFE)
 
-
-        MFE_wig.addEntries(chromosome, genomic_start,  values=MFE_list, span=step_size, step=step_size)
-        zscore_wig.addEntries(chromosome, genomic_start,  values=zscore_list, span=step_size, step=step_size)
-        pscore_wig.addEntries(chromosome, genomic_start,  values=pscore_list, span=step_size, step=step_size)
-        ED_wig.addEntries(chromosome, genomic_start,  values=ED_list, span=step_size, step=step_size)
-        fMFE_wig.addEntries(chromosome, genomic_start,  values=fMFE_list, span=step_size, step=step_size)
+                    #print(len(data))
+                    else:
+                        i = data[0]
+                        j = data[1]
+                        genomic_end = int(genomic_start)+int(step_size)
+                        MFE = float(data[2])
+                        MFE_list.append(MFE)
+                        if data[3] == "Undef":
+                            zscore = float(00000)
+                        else:
+                            zscore = float(data[3])
+                        zscore_list.append(zscore)
+                        pscore = float(data[4])
+                        pscore_list.append(pscore)
+                        ED = float(data[5])
+                        ED_list.append(ED)
+                        fMFE = float(data[6])
+                        fMFE_list.append(fMFE)
 
     if strand == "-":
         lines = reversed(open(filename).readlines()[1:])
         start = genomic_start
         genomic_start = int(start) + int(window_size)
         for row in lines:
-            data = row.split('\t') # this splits each row based on "tab
-                            #print(len(data))
-            #print(len(data))
-            if len(data) > 15:
-                print("Errors found in file")
-                print("Error in column six:", data)
-                data.remove(data[5])
-                #corrected_row = ('\t'.join(data))
-                print("Error removed:", data)
-
-
-                #print(row)
-                #print(len(data))
-                #print(row)
-                i = data[0]
-                j = data[1]
-                #genomic_start = int(genomic_start)+int(window_size)
-                MFE = float(data[2])
-                MFE_list.append(MFE)
-                if data[4] == "Undef":
-                    zscore = float(00000)
-                else:
-                    zscore = float(data[4])
-                zscore_list.append(zscore)
-                pscore = float(data[5])
-                pscore_list.append(pscore)
-                ED = float(data[6])
-                ED_list.append(ED)
-                fMFE = float(data[7])
-                fMFE_list.append(fMFE)
-
+            if not row.strip():
+                continue
             else:
-                i = data[0]
-                j = data[1]
-                #genomic_start = int(genomic_start)+int(window_size)
-                MFE = float(data[2])
-                MFE_list.append(MFE)
-                if data[4] == "Undef":
-                    zscore = float(00000)
-                else:
-                    zscore = float(data[4])
-                zscore_list.append(zscore)
-                pscore = float(data[5])
-                pscore_list.append(pscore)
-                ED = float(data[6])
-                ED_list.append(ED)
-                fMFE = float(data[7])
-                fMFE_list.append(fMFE)
+                data = row.split('\t') # this splits each row based on "tab"
+                if ((len(str(data[8])) == window_size) and
+                (float(data[3]) != 0) and
+                (("A" or "G" or "C" or "U") in data[8])) or (len(str(data[9])) == window_size and
+                (float(data[4]) == 0) and
+                (("A" or "G" or "C" or "U") in data[9])):
+                    if len(data) > 15:
+                        print("Errors found in file")
+                        print("Error in column six:", data)
+                        data.remove(data[5])
+                        #corrected_row = ('\t'.join(data))
+                        print("Error removed:", data)
 
-#print(MFE_list)
-#print(chromosome)
-#print(step_size)
-        MFE_wig.addEntries(chromosome, genomic_start,  values=MFE_list, span=step_size, step=step_size)
-        zscore_wig.addEntries(chromosome, genomic_start,  values=zscore_list, span=step_size, step=step_size)
-        pscore_wig.addEntries(chromosome, genomic_start,  values=pscore_list, span=step_size, step=step_size)
-        ED_wig.addEntries(chromosome, genomic_start,  values=ED_list, span=step_size, step=step_size)
-        fMFE_wig.addEntries(chromosome, genomic_start,  values=fMFE_list, span=step_size, step=step_size)
+
+                        #print(row)
+                        #print(len(data))
+                        #print(row)
+                        i = data[0]
+                        j = data[1]
+                        #genomic_start = int(genomic_start)+int(window_size)
+                        MFE = float(data[2])
+                        MFE_list.append(MFE)
+                        if data[4] == "Undef":
+                            zscore = float(00000)
+                        else:
+                            zscore = float(data[4])
+                        zscore_list.append(zscore)
+                        pscore = float(data[5])
+                        pscore_list.append(pscore)
+                        ED = float(data[6])
+                        ED_list.append(ED)
+                        fMFE = float(data[7])
+                        fMFE_list.append(fMFE)
+
+                    else:
+                        i = data[0]
+                        j = data[1]
+                        #genomic_start = int(genomic_start)+int(window_size)
+                        MFE = float(data[2])
+                        MFE_list.append(MFE)
+                        if data[4] == "Undef":
+                                zscore = float(00000)
+                        else:
+                            zscore = float(data[4])
+                        zscore_list.append(zscore)
+                        pscore = float(data[5])
+                        pscore_list.append(pscore)
+                        ED = float(data[6])
+                        ED_list.append(ED)
+                        fMFE = float(data[7])
+                        fMFE_list.append(fMFE)
+
+                else:
+                    if len(data) > 14:
+                        print("Errors found in file")
+                        print("Error in column six:", data)
+                        data.remove(data[5])
+                        #corrected_row = ('\t'.join(data))
+                        print("Error removed:", data)
+
+                        #print(row)
+                        #print(len(data))
+                        #print(row)
+                        i = data[0]
+                        j = data[1]
+                        #genomic_start = int(genomic_start)+int(window_size)
+                        MFE = float(data[2])
+                        MFE_list.append(MFE)
+                        if data[3] == "Undef":
+                            zscore = float(00000)
+                        else:
+                            zscore = float(data[3])
+                        zscore_list.append(zscore)
+                        pscore = float(data[4])
+                        pscore_list.append(pscore)
+                        ED = float(data[5])
+                        ED_list.append(ED)
+                        fMFE = float(data[6])
+                        fMFE_list.append(fMFE)
+                    else:
+                        i = data[0]
+                        j = data[1]
+                        #genomic_start = int(genomic_start)+int(window_size)
+                        MFE = float(data[2])
+                        MFE_list.append(MFE)
+                        if data[3] == "Undef":
+                            zscore = float(00000)
+                        else:
+                            zscore = float(data[3])
+                        zscore_list.append(zscore)
+                        pscore = float(data[4])
+                        pscore_list.append(pscore)
+                        ED = float(data[5])
+                        ED_list.append(ED)
+                        fMFE = float(data[6])
+                        fMFE_list.append(fMFE)
+
+        #print(MFE_list)
+        #print(chromosome)
+        #print(step_size)
+    MFE_wig.addEntries(chromosome, genomic_start,  values=MFE_list, span=step_size, step=step_size)
+    zscore_wig.addEntries(chromosome, genomic_start,  values=zscore_list, span=step_size, step=step_size)
+    pscore_wig.addEntries(chromosome, genomic_start,  values=pscore_list, span=step_size, step=step_size)
+    ED_wig.addEntries(chromosome, genomic_start,  values=ED_list, span=step_size, step=step_size)
+    fMFE_wig.addEntries(chromosome, genomic_start,  values=fMFE_list, span=step_size, step=step_size)
 
 
 MFE_wig.close()
