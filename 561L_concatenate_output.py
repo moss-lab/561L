@@ -90,7 +90,7 @@ if strand == "1":
                 continue
             else:
                 data = row.split('\t')
-                window_size = int(int(data[0])-int(data[1])+1)
+                window_size = int(int(data[1])-int(data[0])+1)
                 if ((len(str(data[8])) == window_size) and
                 (float(data[3]) != 0) and
                 (("A" or "G" or "C" or "U") in data[8])) or (len(str(data[9])) == window_size and
@@ -261,14 +261,20 @@ if strand == "1":
 
         #print(type(concatenated_regions))
         for x in concatenated_regions:
-            print("Region coordinates:", x)
+
             #print(type(x))
             i = x.start
-            j = int(x.end)+1
+            j = (x.end)
+            #print(i,j)
             #i = Interval.start()
             #j = Interval.end()
             frag = cur_record.seq[i:j]
-            record = SeqRecord(frag, '%s dna:chromosome chromosome:GRCh38:%s:%i:%i:%s' % (chromosome, chromosome, i+int(genomic_start), j+(int(genomic_start))-2, strand), '', '')
+
+            window_start = int(genomic_start)+int(i)
+            window_end = int(genomic_start)+int(j)-1
+            print("Region coordinates:", window_start, window_end)
+            print(frag)
+            record = SeqRecord(frag, '%s dna:chromosome chromosome:GRCh38:%s:%s:%s:%s' % (chromosome, chromosome, window_start, window_end, strand), '', '')
             frags.append(record)
 
     SeqIO.write(frags, fastafile+".seq_cutoff_("+threshold+").fa", "fasta")
@@ -287,7 +293,8 @@ if strand == "-":
                 continue
             else:
                 data = row.split('\t')
-                window_size = int(int(data[0])-int(data[1])+1)
+                window_size = int(int(data[1])-int(data[0])+1)
+                #print(window_size)
                 if ((len(str(data[8])) == window_size) and
                 (float(data[3]) != 0) and
                 (("A" or "G" or "C" or "U") in data[8])) or (len(str(data[9])) == window_size and
@@ -465,7 +472,7 @@ if strand == "-":
 
         #print(type(concatenated_regions))
         for x in concatenated_regions:
-            print("Region coordinates:", x)
+            #print("Region coordinates:", x)
             #print(type(x))
             i = x.start
             j = x.end
@@ -473,9 +480,11 @@ if strand == "-":
             #j = Interval.end()
             frag = cur_record.seq[i:j]
             window_start = int(int(genomic_start)+(int(length)-int(j)))
-            print(window_start)
+            #print(window_start)
             window_end = int(int(genomic_start)+(int(length)-int(i)))-1
-            print(window_end)
+            #print(window_end)
+            print("Region coordinates:", window_start, window_end)
+            print(frag)
             record = SeqRecord(frag, '%s dna:chromosome chromosome:GRCh38:%s:%s:%s:%s1' % (chromosome, chromosome, window_start, window_end, strand), '', '')
             frags.append(record)
 
