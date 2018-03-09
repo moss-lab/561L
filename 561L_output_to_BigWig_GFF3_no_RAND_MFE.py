@@ -66,7 +66,7 @@ if strand == "+":
             gdata = row.split('\t') # this splits each row based on "tab"
             if len(gdata) > 14:
                 print("Errors found in file")
-                print("Error in column six:", gdata)
+                print("Error in column five:", gdata)
                 gdata.remove(gdata[4])
                 #corrected_row = ('\t'.join(data))
                 print("Error removed:", gdata)
@@ -79,14 +79,14 @@ if strand == "+":
         #        if strand == '-1':
         #            icoordinate = int(int(genomic_start)+(int(length)-int(data[1])))
         #            jcoordinate = int(int(genomic_start)+(int(length)-int(data[0])))
-                MFE = float(gdata[2])
+                gMFE = float(gdata[2])
                 #rand_MFE = float(gdata[3])
-                zscore = gdata[3]
-                if zscore == "Undef":
-                    zscore = float(00000)
+                gzscore = gdata[3]
+                if gzscore == "Undef":
+                    gzscore = float(00000)
                 else:
-                    zscore = float(gdata[3])
-                pvalue = gdata[4]
+                    gzscore = float(gdata[3])
+                gpvalue = gdata[4]
                 #try:
                 #    pvalue = float(gdata[5])
                 #except ValueError:
@@ -94,7 +94,7 @@ if strand == "+":
                 #    pvalue =float(0)
                 gED = float(gdata[5])
                 gfMFE = float(gdata[6])
-                gwindow_sequence = gdata[7]
+                gsequence = gdata[7]
                 gfold = gdata[8]
                 gcentroid = gdata[9]
                 gfA = gdata[10]
@@ -144,7 +144,7 @@ if strand == "-":
             gdata = row.split('\t') # this splits each row based on "tab"
             if len(gdata) > 14:
                 print("Errors found in file")
-                print("Error in column six:", gdata)
+                print("Error in column five:", gdata)
                 gdata.remove(gdata[4])
                 #corrected_row = ('\t'.join(data))
                 print("Error removed:", gdata)
@@ -205,7 +205,7 @@ with open(filename, 'r') as f:
             #print(len(data))
             if len(data) > 14:
                 print("Errors found in file")
-                print("Error in column six:", data)
+                print("Error in column five:", data)
                 data.remove(data[4])
                 #corrected_row = ('\t'.join(data))
                 print("Error removed:", data)
@@ -264,7 +264,7 @@ with open(filename, 'r') as f:
             #print(len(data))
             if len(data) > 14:
                 print("Errors found in file")
-                print("Error in column six:", data)
+                print("Error in column five:", data)
                 data.remove(data[4])
                 #corrected_row = ('\t'.join(data))
                 print("Error removed:", data)
