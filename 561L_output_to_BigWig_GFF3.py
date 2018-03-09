@@ -79,13 +79,13 @@ if strand == "+":
         #        if strand == '-1':
         #            icoordinate = int(int(genomic_start)+(int(length)-int(data[1])))
         #            jcoordinate = int(int(genomic_start)+(int(length)-int(data[0])))
-                MFE = float(gdata[2])
+                gMFE = float(gdata[2])
                 rand_MFE = float(gdata[3])
-                zscore = gdata[4]
-                if zscore == "Undef":
-                    zscore = float(00000)
+                gzscore = gdata[4]
+                if gzscore == "Undef":
+                    gzscore = float(00000)
                 else:
-                    zscore = float(gdata[4])
+                    gzscore = float(gdata[4])
                 pvalue = gdata[5]
                 #try:
                 #    pvalue = float(gdata[5])
@@ -94,7 +94,7 @@ if strand == "+":
                 #    pvalue =float(0)
                 gED = float(gdata[6])
                 gfMFE = float(gdata[7])
-                gwindow_sequence = gdata[8]
+                gsequence = gdata[8]
                 gfold = gdata[9]
                 gcentroid = gdata[10]
                 gfA = gdata[11]
