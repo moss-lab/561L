@@ -10,7 +10,7 @@
 import sys
 
 # import shuffle from random method
-   
+
 from random import shuffle
 
 
@@ -33,4 +33,4 @@ shuffle(rnas)
 
 # Pick RNA from randomized list using the length of the user's name
 
-write (">",user_name, "RNA\n", rnas[len(user_name)])
+write (f'>{user_name}\'s RNA\n{rnas[len(user_name)]}')
