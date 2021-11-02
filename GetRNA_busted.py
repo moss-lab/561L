@@ -32,5 +32,8 @@ rna_file.close()                   # close gene_file to save memory
 shuffle(rnas)
 
 # Pick RNA from randomized list using the length of the user's name
+rna = rnas[len(user_name)]
 
-write (f'>{user_name}\'s RNA\n{rnas[len(user_name)]}')
+output = ">%s's RNA\n%s"%(user_name,rna)
+
+write (output)
