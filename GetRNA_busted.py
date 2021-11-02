@@ -33,9 +33,4 @@ shuffle(rnas)
 
 # Pick RNA from randomized list using the length of the user's name
 
-write (f'>{user_name}\'s RNA\n{rnas[len(user_name)]}')
-
-
-
-
-
+write (">",user_name, "RNA\n", rnas[len(user_name)])
