@@ -1,0 +1,10 @@
+SimRNA-runfirst-561L.sh:
+Line 2 - change server
+Line 8 (user) - email
+Line 11 - change python code location
+Line 11 (user) - email
+
+SimRNA_inputs.py:
+Line 27 - change server
+Line 52 - change SimRNA location
+
